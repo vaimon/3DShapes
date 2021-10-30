@@ -54,7 +54,15 @@ namespace _3Dbasics
             rbAxonometric.Enabled = interactiveMode;
             rbWorldCenter.Enabled = interactiveMode;
             rbCenter.Enabled = interactiveMode;
+            btnChoosePlot.Enabled = interactiveMode;
+            etSplit.Enabled = interactiveMode;
+            etX0.Enabled = interactiveMode;
+            etX1.Enabled = interactiveMode;
+            etY0.Enabled = interactiveMode;
+            etY1.Enabled = interactiveMode;
 
+            tabControl.Enabled = !interactiveMode;
+            btnLoad.Text = interactiveMode ? "Сохранить" : "Загрузить из файла";
             buttonShape.Text = interactiveMode ? "Очистить" : "Нарисовать";
             selectShape.Enabled = !interactiveMode;
         }
@@ -161,6 +169,11 @@ namespace _3Dbasics
         private void rbWorldCenter_CheckedChanged(object sender, EventArgs e)
         {
             isScaleModeWorldCenter = rbWorldCenter.Checked;
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -38,9 +38,9 @@ namespace _3Dbasics
 
                 // центр фигуры
                 Point center = new Point(sumX / currentShape.Faces.Count(), sumY / currentShape.Faces.Count(), sumZ / currentShape.Faces.Count());
-                int cx = int.Parse(textScaleX.Text);
-                int cy = int.Parse(textScaleY.Text);
-                int cz = int.Parse(textScaleZ.Text);
+                double cx = double.Parse(textScaleX.Text);
+                double cy = double.Parse(textScaleY.Text);
+                double cz = double.Parse(textScaleZ.Text);
                 shift(ref currentShape, -center.Xf, -center.Yf, -center.Zf);
                 scale(ref currentShape, cx, cy, cz);
                 shift(ref currentShape, center.Xf, center.Yf, center.Zf);
