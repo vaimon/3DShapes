@@ -177,6 +177,15 @@ namespace _3Dbasics
                 }
             }
         }
+
+        /// <summary>
+        /// Виртуальный метод, чтобы наследники могли возвращать какую-то инфу для сохранения в файл
+        /// </summary>
+        /// <returns></returns>
+        public virtual String getAdditionalInfo()
+        {
+            return "";
+        }
     }
 
     class Tetrahedron : Shape
@@ -201,7 +210,10 @@ namespace _3Dbasics
 
     class Dodecahedron : Shape
     {
-
+        public override String getAdditionalInfo()
+        {
+            return "I AM DODECAHEDRON";
+        }
     }
     
 
