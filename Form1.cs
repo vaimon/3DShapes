@@ -54,13 +54,13 @@ namespace _3Dbasics
             rbAxonometric.Enabled = interactiveMode;
             rbWorldCenter.Enabled = interactiveMode;
             rbCenter.Enabled = interactiveMode;
-            btnChoosePlot.Enabled = interactiveMode;
-            etSplit.Enabled = interactiveMode;
-            etX0.Enabled = interactiveMode;
-            etX1.Enabled = interactiveMode;
-            etY0.Enabled = interactiveMode;
-            etY1.Enabled = interactiveMode;
 
+            btnChoosePlot.Enabled = !interactiveMode;
+            etSplit.Enabled = !interactiveMode;
+            etX0.Enabled = !interactiveMode;
+            etX1.Enabled = !interactiveMode;
+            etY0.Enabled = !interactiveMode;
+            etY1.Enabled = !interactiveMode;
             tabControl.Enabled = !interactiveMode;
             btnLoad.Text = interactiveMode ? "Сохранить" : "Загрузить из файла";
             buttonShape.Text = interactiveMode ? "Очистить" : "Нарисовать";

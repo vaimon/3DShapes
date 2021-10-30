@@ -39,7 +39,15 @@ namespace _3Dbasics
             }
             else
             {
-                currentShape = ShapeGetter.getShape(currentShapeType);
+                if(tabControl.SelectedIndex == 0)
+                {
+                    currentShape = ShapeGetter.getShape(currentShapeType);
+                }
+                else
+                {
+                    currentShape = ShapeGetter.getShape(ShapeType.DODECAHEDRON);
+                }
+                
                 redraw();
                 setFlags(true);
             }
