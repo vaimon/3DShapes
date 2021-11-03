@@ -654,7 +654,13 @@ namespace _3DShapes
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.FileName = "модельМногогранника";
+            this.openFileDialog1.DefaultExt = "txt";
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.FileName = "модельМногогранника";
+            this.saveFileDialog1.DefaultExt = "txt";
             // 
             // pbFormula
             // 
