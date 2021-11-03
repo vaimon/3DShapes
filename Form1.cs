@@ -182,7 +182,7 @@ namespace _3DShapes
                     string fileName = openFileDialog1.FileName;
                     if (File.Exists(fileName))
                     {
-                        Shape.readShape(fileName);
+                        currentShape = Shape.readShape(fileName);
                         redraw();
                         setFlags(true);
                     }
