@@ -521,32 +521,52 @@ namespace _3DShapes
 
             return res;
         }
-        
+
         /// 
         /// <summary>
         /// Получение фигуры вращения
         /// </summary>
         /// <returns></returns>
-        public static RotationShape getRotationShape(List<Point> general,int divisions, AxisType axis)
-         {
-             RotationShape res=new RotationShape();
+        public static RotationShape getRotationShape(List<Point> general, int divisions, AxisType axis)
+        {
+            RotationShape res = new RotationShape();
+            
             int GeneralCount = general.Count();
-             //Line axis;
-            int Count=divisions;
-            int angle= (int)360.0f / Count;//угол 
+            //Line axis;
+            int Count = divisions;
+            int angle = (int)360.0f / Count;//угол 
             List<Line> edges;//ребра
             List<Point> genline = general;
             res.addPoints(general);//добавили образующую
             for (int i = 1; i < divisions; i++)//количество разбиений
             {
-                res.addPoints(Geometry.RotatePoint(general,axis ,angle * i ));
+                res.addPoints(Geometry.RotatePoint(general, axis, angle * i));
             }
             //
-            return res;
-             //Фигура вращения задаётся тремя параметрами: образующей(набор точек), осью вращения и количеством разбиений
-             //зададим ребра и грани
+         
+            //Фигура вращения задаётся тремя параметрами: образующей(набор точек), осью вращения и количеством разбиений
+            //зададим ребра и грани
+            for (int i = 1; i < divisions; i++)
+            {
+                for (int j = 1; i < GeneralCount; j++)
+                {
+                    int current = i * GeneralCount + j;
+                    if ((current + 1) % GeneralCount == 0)
+                    {
+                        double e = (current + GeneralCount) % res.Points.Count;
+                       // res.addFace(new Face().addEdge(new Line(current, e));
 
-         }
+
+                        
+                    }
+                    
+                }
+
+
+            }
+           
+            return res;
+        }
         
     }
 }
