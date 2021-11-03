@@ -233,6 +233,7 @@ namespace _3DShapes
             if (line != null)
             {
                 // какая-то доп информация
+                res.getAdditionalInfo();
             }
 
             line = sr.ReadLine();
