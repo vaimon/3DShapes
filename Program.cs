@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace _3Dbasics
+namespace _3DShapes
 {
     static class Program
     {

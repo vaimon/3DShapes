@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _3Dbasics
+namespace _3DShapes
 {
     /// <summary>
     /// Тип объёмной фигуры
