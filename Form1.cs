@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace _3Dbasics
+namespace _3DShapes
 {
     public partial class Form1 : System.Windows.Forms.Form
     {
@@ -18,6 +18,7 @@ namespace _3Dbasics
         double shiftx=0;
         double shifty =0;
         double shiftz =0;
+        Func<double, double, double> currentFun;
 
         public Form1()
         {
@@ -192,6 +193,24 @@ namespace _3Dbasics
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                     saveShape(saveFileDialog1.FileName);
             }
+        }
+
+        private void btnChoosePlot_Click(object sender, EventArgs e)
+        {
+            using (var form = new ChooseFunForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    currentFun = form.SelectedFunction;
+                    pbFormula.Size = form.ImageSize;
+                    pbFormula.Image = form.Formula;
+                }
+            }
+        }
+
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            pbFormula.Visible = tabControl.SelectedIndex == 1;
         }
     }
 }

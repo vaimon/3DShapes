@@ -1,5 +1,5 @@
 ﻿
-namespace _3Dbasics
+namespace _3DShapes
 {
     partial class Form1
     {
@@ -77,6 +77,7 @@ namespace _3Dbasics
             this.label11 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.pbFormula = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
@@ -84,6 +85,7 @@ namespace _3Dbasics
             this.tabControl.SuspendLayout();
             this.tabPageShape.SuspendLayout();
             this.tabPagePlot.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFormula)).BeginInit();
             this.SuspendLayout();
             // 
             // canvas
@@ -462,6 +464,7 @@ namespace _3Dbasics
             this.btnChoosePlot.TabIndex = 0;
             this.btnChoosePlot.Text = "Выбрать функцию";
             this.btnChoosePlot.UseVisualStyleBackColor = true;
+            this.btnChoosePlot.Click += new System.EventHandler(this.btnChoosePlot_Click);
             // 
             // tabControl
             // 
@@ -473,6 +476,7 @@ namespace _3Dbasics
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(190, 212);
             this.tabControl.TabIndex = 21;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
             // tabPageShape
             // 
@@ -652,12 +656,24 @@ namespace _3Dbasics
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // pbFormula
+            // 
+            this.pbFormula.BackColor = System.Drawing.Color.White;
+            this.pbFormula.Location = new System.Drawing.Point(302, 12);
+            this.pbFormula.Name = "pbFormula";
+            this.pbFormula.Size = new System.Drawing.Size(287, 73);
+            this.pbFormula.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbFormula.TabIndex = 22;
+            this.pbFormula.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1184, 591);
+            this.ClientSize = new System.Drawing.Size(1691, 985);
+            this.Controls.Add(this.pbFormula);
             this.Controls.Add(this.buttonShape);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.panel1);
@@ -699,6 +715,7 @@ namespace _3Dbasics
             this.tabPageShape.ResumeLayout(false);
             this.tabPagePlot.ResumeLayout(false);
             this.tabPagePlot.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFormula)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -756,6 +773,7 @@ namespace _3Dbasics
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.PictureBox pbFormula;
     }
 }
 
