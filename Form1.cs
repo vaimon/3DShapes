@@ -45,6 +45,7 @@ namespace _3DShapes
             rbAxonometric.Enabled = interactiveMode;
             rbPerspective.Enabled = interactiveMode;
             rbIsometric.Enabled = interactiveMode;
+            rbDimetric.Enabled = interactiveMode;
             btnShowAxis.Enabled = interactiveMode;
             textAngle.Enabled = interactiveMode;
             textScaleX.Enabled = interactiveMode;
@@ -211,6 +212,15 @@ namespace _3DShapes
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             pbFormula.Visible = tabControl.SelectedIndex == 1;
+        }
+
+        private void rbDimetric_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbDimetric.Checked)
+            {
+                Point.projection = ProjectionType.DIMETRIC;
+                redraw();
+            }
         }
     }
 }

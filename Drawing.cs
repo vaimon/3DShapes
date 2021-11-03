@@ -46,7 +46,7 @@ namespace _3DShapes
                 }
                 else
                 {
-                    currentShape = ShapeGetter.getShape(ShapeType.DODECAHEDRON);
+                    currentShape = ShapeGetter.getSurfaceSegment(currentFun,int.Parse(etX0.Text), int.Parse(etX1.Text), int.Parse(etY0.Text), int.Parse(etY1.Text), int.Parse(etSplit.Text));
                 }
                 
                 redraw();

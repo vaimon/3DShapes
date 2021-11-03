@@ -11,7 +11,7 @@ namespace _3DShapes
     /// <summary>
     /// Тип проекции на экран
     /// </summary>
-    public enum ProjectionType { ISOMETRIC, PERSPECTIVE, TRIMETRIC }
+    public enum ProjectionType { ISOMETRIC, PERSPECTIVE, TRIMETRIC, DIMETRIC }
 
     /// <summary>
     /// Точка в пространстве
@@ -23,6 +23,7 @@ namespace _3DShapes
         public static PointF worldCenter;
         static Matrix isometricMatrix = new Matrix(3,3).fill(Math.Sqrt(3),0,-Math.Sqrt(3),1,2,1, Math.Sqrt(2),-Math.Sqrt(2), Math.Sqrt(2)) * (1/ Math.Sqrt(6));
         static Matrix trimetricMatrix = new Matrix(4, 4).fill(Math.Sqrt(3)/2, Math.Sqrt(2)/4, 0, 1, 0, Math.Sqrt(2)/2, 0, 1, 0.5,-Math.Sqrt(6)/4,0,0,0,0,0,1);
+        static Matrix dimetricMatrix = new Matrix(4, 4).fill(0.926,0.134,0,0,0,0.935,0,0,0.378,-0.327,0,0,0,0,0,1);
         static Matrix centralMatrix = new Matrix(4, 4).fill(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, k, 0, 0, 0, 1);
         const double k = 0.001f;
         public Point(int x, int y, int z)
@@ -59,8 +60,13 @@ namespace _3DShapes
             }
             else if (projection == ProjectionType.TRIMETRIC)
             {
-                Matrix res = new Matrix(1, 4).fill(Xf, Yf, Zf, 1) * trimetricMatrix;
+                Matrix res = new Matrix(1, 4).fill(Yf, Zf, Xf, 1) * trimetricMatrix;
                 return new PointF(worldCenter.X + (float)res[0,0], worldCenter.Y + (float)res[0, 1]);
+            }
+            else if (projection == ProjectionType.DIMETRIC)
+            {
+                Matrix res = new Matrix(1, 4).fill(Xf, Yf, Zf, 1) * dimetricMatrix;
+                return new PointF(worldCenter.X + (float)res[0, 0], worldCenter.Y + (float)res[0, 1]);
             }
             else
             {
@@ -216,6 +222,20 @@ namespace _3DShapes
         }
     }
     
+    class SurfaceSegment : Shape
+    {
+        int x0, x1, y0, y1;
+        int splitting;
+
+        public SurfaceSegment(int x0, int x1, int y0, int y1, int splitting)
+        {
+            this.x0 = x0;
+            this.x1 = x1;
+            this.y0 = y0;
+            this.y1 = y1;
+            this.splitting = splitting;
+        }
+    }
 
     class Geometry
     {
@@ -414,6 +434,26 @@ namespace _3DShapes
             res.addFace(new Face().addEdge(new Line(centers[15], centers[16])).addEdge(new Line(centers[16], centers[17])).addEdge(new Line(centers[17], centers[18])).addEdge(new Line(centers[18], centers[19])).addEdge(new Line(centers[19], centers[15])));
             res.addFace(new Face().addEdge(new Line(centers[10], centers[11])).addEdge(new Line(centers[11], centers[12])).addEdge(new Line(centers[12], centers[13])).addEdge(new Line(centers[13], centers[14])).addEdge(new Line(centers[14], centers[10])));
 
+            return res;
+        }
+
+        public static SurfaceSegment getSurfaceSegment(Func<double,double,double> fun, int x0, int x1, int y0, int y1, int splitting)
+        {
+            SurfaceSegment res = new SurfaceSegment(x0, x1, y0, y1, splitting);
+            double stepX = Math.Abs(x1 - x0) * 1.0 / splitting;
+            double stepY = Math.Abs(y1 - y0) * 1.0 / splitting;
+            for (double x = x0; x < x1; x+= stepX)
+            {
+                for (double y = y0; y < y1; y += stepY)
+                {
+                    var face = new Face();
+                    face.addEdge(new Line(new Point(x, y, fun(x, y)), new Point(x + stepX, y, fun(x + stepX, y))));
+                    face.addEdge(new Line(new Point(x + stepX, y, fun(x + stepX, y)), new Point(x + stepX, y + stepY, fun(x + stepX, y + stepY))));
+                    face.addEdge(new Line(new Point(x + stepX, y + stepY, fun(x + stepX, y + stepY)), new Point(x, y + stepY, fun(x, y + stepY))));
+                    face.addEdge(new Line(new Point(x, y + stepY, fun(x, y + stepY)), new Point(x, y, fun(x, y))));
+                    res.addFace(face);
+                }
+            }
             return res;
         }
     }

@@ -49,7 +49,7 @@ namespace _3DShapes
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
-            SelectedFunction = (double x, double y) => { return x * x + y * y; };
+            SelectedFunction = (double x, double y) => { return Math.Sin(x) * Math.Cos(y); };
             Formula = pictureBox5.Image;
             ImageSize = pictureBox5.Size;
             DialogResult = DialogResult.OK;
