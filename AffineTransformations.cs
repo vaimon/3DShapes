@@ -22,7 +22,7 @@ namespace _3DShapes
         {
             if (isScaleModeWorldCenter)
             {
-                scale(ref currentShape, int.Parse(textScaleX.Text), int.Parse(textScaleY.Text), int.Parse(textScaleZ.Text));
+                scale(ref currentShape, double.Parse(textScaleX.Text.Replace('.',',')), double.Parse(textScaleY.Text.Replace('.', ',')), double.Parse(textScaleZ.Text.Replace('.', ',')));
                 redraw();
             }
             else

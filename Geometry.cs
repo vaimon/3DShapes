@@ -231,6 +231,9 @@ namespace _3DShapes
                     case "DODECAHEDRON":
                         res = new Dodecahedron();
                         break;
+                    case "SURFACESEGMENT":
+                        res = new SurfaceSegment();
+                        break;
                     default:
                         throw new Exception("Такой фигуры нет :с");
                 }
@@ -333,6 +336,10 @@ namespace _3DShapes
         int x0, x1, y0, y1;
         int splitting;
 
+        public SurfaceSegment()
+        {
+        }
+
         public SurfaceSegment(int x0, int x1, int y0, int y1, int splitting)
         {
             this.x0 = x0;
@@ -340,6 +347,13 @@ namespace _3DShapes
             this.y0 = y0;
             this.y1 = y1;
             this.splitting = splitting;
+        }
+
+
+
+        public override String getShapeName()
+        {
+            return "SURFACESEGMENT";
         }
     }
 
