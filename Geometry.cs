@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -186,33 +187,138 @@ namespace _3DShapes
         {
             return "";
         }
+
+        /// <summary>
+        /// Виртуальный метод, чтобы наследники могли возвращать свои имена
+        /// </summary>
+        /// <returns></returns>
+        public virtual String getShapeName()
+        {
+            return "SHAPE";
+        }
+
+        // читает модель многогранника из файла
+        public static Shape readShape(string fileName)
+        {
+            Shape res = new Shape();
+            StreamReader sr = new StreamReader(fileName);
+            List<Line> edgs = new List<Line>();
+
+            // название фигуры
+            string line = sr.ReadLine(); 
+            if (line != null)
+            {
+                switch (line)
+                {
+                    case "TETRAHEDRON":
+                        res = new Tetrahedron();
+                        break;
+                    case "HEXAHEDRON":
+                        res = new Hexahedron();
+                        break;
+                    case "OCTAHEDRON":
+                        res = new Octahedron();
+                        break;
+                    case "ICOSAHEDRON":
+                        res = new Icosahedron();
+                        break;
+                    case "DODECAHEDRON":
+                        res = new Dodecahedron();
+                        break;
+                    default:
+                        throw new Exception("Такой фигуры нет :с");
+                }
+            }
+            line = sr.ReadLine();
+            if (line != null)
+            {
+                // какая-то доп информация
+                res.getAdditionalInfo();
+            }
+
+            line = sr.ReadLine();
+            // считываем данные о каждой грани
+            while (line != null)
+            {
+                string[] lineParse = line.Split(); // делим грань на ребра
+                foreach (string pointLine in lineParse)
+                {
+                    if (pointLine == "")
+                        break;
+                    string[] str = pointLine.Split(';'); // делим на точки начала и конца ребер
+                    var startPoint = str[0].Split(','); // начало ребра
+                    var endPoint = str[1].Split(','); // конец ребра
+
+                    // добавляем новое ребро текущей грани
+                    edgs.Add(new Line(new Point(int.Parse(startPoint[0]), int.Parse(startPoint[1]), int.Parse(startPoint[2])), new Point(int.Parse(endPoint[0]), int.Parse(endPoint[1]), int.Parse(endPoint[2]))));
+                }
+                res.addFace(new Face(edgs)); // добавляем целую грань фигуры
+                edgs = new List<Line>();
+                line = sr.ReadLine();
+            }
+            sr.Close();
+            return res;
+        }
+
+        // сохраняет модель многогранника в файл
+        public void saveShape(string fileName)
+        {
+            // очистка файла
+            File.WriteAllText(fileName, String.Empty);
+
+            // запись в файл
+            StreamWriter sw = new StreamWriter(fileName);
+            sw.WriteLine(this.getShapeName()); // название фигуры
+            sw.WriteLine(this.getAdditionalInfo()); // дополнительная информация
+            foreach (Face face in this.Faces)
+            {
+                foreach (Line edge in face.Edges)
+                {
+                    sw.Write(edge.Start.X + "," + edge.Start.Y + "," + edge.Start.Z + ";" + edge.End.X + "," + edge.End.Y + "," + edge.End.Z + " ");
+                }
+                sw.WriteLine();
+            }
+            sw.Close();
+        }
     }
 
     class Tetrahedron : Shape
     {
-
+        public override String getShapeName()
+        {
+            return "TETRAHEDRON";
+        }
     }
 
     class Octahedron : Shape
     {
-
+        public override String getShapeName()
+        {
+            return "OCTAHEDRON";
+        }
     }
 
     class Hexahedron : Shape
     {
-
+        public override String getShapeName()
+        {
+            return "HEXAHEDRON";
+        }
     }
 
     class Icosahedron : Shape
     {
-
+        public override String getShapeName()
+        {
+            return "ICOSAHEDRON";
+        }
     }
 
     class Dodecahedron : Shape
     {
-        public override String getAdditionalInfo()
+        public override String getShapeName()
         {
-            return "I AM DODECAHEDRON";
+            return "DODECAHEDRON";
         }
     }
     
