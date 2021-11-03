@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace _3Dbasics
             }
             else
             {
-                if(tabControl.SelectedIndex == 0)
+                if (tabControl.SelectedIndex == 0)
                 {
                     currentShape = ShapeGetter.getShape(currentShapeType);
                 }
@@ -179,6 +180,36 @@ namespace _3Dbasics
             }
         }
 
-        
+        // читает модель многогранника из файла
+        public void readShape(string fileName)
+        {
+            StreamReader sr = new StreamReader(fileName);
+            List<Line> edgs = new List<Line>();
+            string line = sr.ReadLine();
+            //Continue to read until you reach end of file
+            while (line != null)
+            {
+                string[] lineParse = line.Split();
+                edgs.Add(new Line(new Point(int.Parse(lineParse[0]), int.Parse(lineParse[1]), int.Parse(lineParse[2])), new Point(int.Parse(lineParse[3]), int.Parse(lineParse[4]), int.Parse(lineParse[5]))));
+                line = sr.ReadLine();
+            }
+            currentShape = new Shape();
+            currentShape.addFace(new Face(edgs));
+            sr.Close();
+        }
+
+        // сохраняет модель многогранника в файл
+        public void saveShape(string fileName)
+        {
+            // очистка файла
+            File.WriteAllText(fileName, String.Empty);
+
+            // запись в файл
+            StreamWriter sw = new StreamWriter(fileName);
+            foreach (Face face in currentShape.Faces)
+                foreach (Line edge in face.Edges)
+                    sw.WriteLine(edge.Start.X + " " + edge.Start.Y + " " + edge.Start.Z + " " + edge.End.X + " " + edge.End.Y + " " + edge.End.Z);
+            sw.Close();
+        }
     }
 }

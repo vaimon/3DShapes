@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -173,7 +174,24 @@ namespace _3Dbasics
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-
+            if (btnLoad.Text == "Загрузить из файла")
+            {
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    string fileName = openFileDialog1.FileName;
+                    if (File.Exists(fileName))
+                    {
+                        readShape(fileName);
+                        redraw();
+                        setFlags(true);
+                    }
+                }
+            }
+            else
+            {
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                    saveShape(saveFileDialog1.FileName);
+            }
         }
     }
 }
