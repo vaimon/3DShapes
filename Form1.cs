@@ -19,6 +19,8 @@ namespace _3DShapes
         double shifty =0;
         double shiftz =0;
         Func<double, double, double> currentFun;
+        List<Point> RotationShapePoints=new List<Point>();
+        int Div;
 
         public Form1()
         {
@@ -211,6 +213,16 @@ namespace _3DShapes
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             pbFormula.Visible = tabControl.SelectedIndex == 1;
+        }
+
+        private void AddPoint_Click(object sender, EventArgs e)
+        {
+            int x = int.Parse(getX.Text);
+            int y = int.Parse(getY.Text);
+            int z = int.Parse(getZ.Text);
+            Point p = new Point(x,y,z);
+            RotationShapePoints.Add( p);
+            //Div = int.Parse(getDiv.Text);
         }
     }
 }

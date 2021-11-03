@@ -11,7 +11,7 @@ namespace _3DShapes
     /// <summary>
     /// Тип объёмной фигуры
     /// </summary>
-    public enum ShapeType { TETRAHEDRON, HEXAHEDRON, OCTAHEDRON, ICOSAHEDRON, DODECAHEDRON }
+    public enum ShapeType { TETRAHEDRON, HEXAHEDRON, OCTAHEDRON, ICOSAHEDRON, DODECAHEDRON,ROTATION_SHAPE }
 
     public partial class Form1
     {
@@ -46,7 +46,14 @@ namespace _3DShapes
                 }
                 else
                 {
-                    currentShape = ShapeGetter.getShape(ShapeType.DODECAHEDRON);
+                    if (tabControl.SelectedIndex == 1)
+                    {
+                        currentShape = ShapeGetter.getShape(ShapeType.DODECAHEDRON);
+                    }
+                    else
+                    {
+                        Div = int.Parse(getDiv.Text);
+                    }
                 }
                 
                 redraw();

@@ -12,8 +12,7 @@ namespace _3DShapes
     /// Тип проекции на экран
     /// </summary>
     public enum ProjectionType { ISOMETRIC, PERSPECTIVE, TRIMETRIC }
-
-    /// <summary>
+       /// <summary>
     /// Точка в пространстве
     /// </summary>
     class Point
@@ -177,6 +176,7 @@ namespace _3DShapes
                 }
             }
         }
+       
 
         /// <summary>
         /// Виртуальный метод, чтобы наследники могли возвращать какую-то инфу для сохранения в файл
@@ -215,7 +215,47 @@ namespace _3DShapes
             return "I AM DODECAHEDRON";
         }
     }
-    
+    /// <summary>
+    /// Класс фигур вращения
+    /// </summary>
+   
+    class RotationShape : Shape
+    {
+        List<Point> formingline;
+        Line axiz;
+        int Divisions;
+        List<Point> allpoints;
+        public RotationShape()
+        {
+            allpoints = new List<Point>();
+        }
+
+        public RotationShape(IEnumerable<Point> points) : this()
+        {
+            this.allpoints.AddRange(points);
+        }
+        public RotationShape(Line ax, int Div, IEnumerable<Point> line) : this()
+        {
+            this.axiz=ax;
+            this.Divisions = Div;
+            this.formingline.AddRange(line);
+        }
+
+        public RotationShape addPoint(Point p)
+        {
+            allpoints.Add(p);
+            return this;
+        }
+        public RotationShape addPoints(IEnumerable<Point> points)
+        {
+            this.allpoints.AddRange(points);
+            return this;
+        }
+
+        public List<Point> Points { get => allpoints; }
+        
+    }
+   
 
     class Geometry
     {
@@ -223,7 +263,7 @@ namespace _3DShapes
         /// Переводит угол из градусов в радианы
         /// </summary>
         /// <param name="angle">Угол в градусах</param>
-        /// <returns>Угол в радианах</returns>
+        ///
         public static double degreesToRadians(double angle)
         {
             return Math.PI * angle / 180.0;
@@ -247,6 +287,70 @@ namespace _3DShapes
         {
             return Math.Round(Math.Sin(degreesToRadians(angle)), 5);
         }
+        /// <summary>
+        /// Перевод точки в другую точку
+        /// </summary>
+        /// <param name="p">Исзодная точка</param>
+        /// <param name="matrix">Матрица перевода</param>
+        /// 
+        public static Point transformPoint(Point p, Matrix matrix)
+
+        {
+            var matrfrompoint = new Matrix(4, 4).fill(p.X, p.Y, p.Z);
+
+            var matrPoint = matrix * matrfrompoint;//применение преобразования к точке
+            Point newPoint = new Point(matrPoint[0, 0] / matrPoint[3, 0], matrPoint[1, 0] / matrPoint[3, 0], matrPoint[2, 0] / matrPoint[3, 0]);
+            return newPoint;
+
+        }
+        /// <summary>
+        /// Перевод всех точек для тела вращения в другие точки
+        /// </summary>
+        /// <param name="matrix">Матрица перевода</param>
+        /// 
+        public static List<Point> transformPointsRotationFig(Matrix matrix,List<Point> allpoints)
+        {
+            List<Point> clone = allpoints;
+            List<Point> res = new List<Point>();
+            foreach (var p in clone)
+            {
+
+                Point newp = transformPoint(p, matrix);
+                res.Add(newp);
+            }
+            return res;
+        }/// <summary>
+        /// Поворот образующей для фигуры вращения
+        /// </summary>
+        /// <param name="general">образующая</param>
+        /// <param name="axis">Ось вращения</param>
+        /// <param name="angle">угол вращения</param>
+
+        /// <returns></returns>
+        public static List<Point> RotatePoint(List<Point> general, AxisType axis, int angle)
+        {
+            List<Point> res;
+            double mysin = Math.Sin(Geometry.degreesToRadians(angle));
+            double mycos = Math.Cos(Geometry.degreesToRadians(angle));
+            Matrix rotation = new Matrix(0, 0);
+
+            switch (axis)
+            {
+                case AxisType.X:
+                    rotation = new Matrix(4, 4).fill(1, 0, 0, 0, 0, Geometry.Cos(angle), -Geometry.Sin(angle), 0, 0, Geometry.Sin(angle), Geometry.Cos(angle), 0, 0, 0, 0, 1);
+                    break;
+                case AxisType.Y:
+                    rotation = new Matrix(4, 4).fill(Geometry.Cos(angle), 0, Geometry.Sin(angle), 0, 0, 1, 0, 0, -Geometry.Sin(angle), 0, Geometry.Cos(angle), 0, 0, 0, 0, 1);
+                    break;
+                case AxisType.Z:
+                    rotation = new Matrix(4, 4).fill(Geometry.Cos(angle), -Geometry.Sin(angle), 0, 0, Geometry.Sin(angle), Geometry.Cos(angle), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+                    break;
+            }
+
+            res = Geometry.transformPointsRotationFig(rotation, general);
+
+            return res;            
+        }
     }
 
     /// <summary>
@@ -268,7 +372,8 @@ namespace _3DShapes
                 case ShapeType.HEXAHEDRON: return getHexahedron();
                 case ShapeType.ICOSAHEDRON: return getIcosahedron();
                 case ShapeType.DODECAHEDRON: return getDodecahedron();
-                
+               // case ShapeType.ROTATION_SHAPE: return getRotationShape();
+
                 default: throw new Exception("C# очень умный (нет)");
             }
         }
@@ -416,5 +521,32 @@ namespace _3DShapes
 
             return res;
         }
+        
+        /// 
+        /// <summary>
+        /// Получение фигуры вращения
+        /// </summary>
+        /// <returns></returns>
+        public static RotationShape getRotationShape(List<Point> general,int divisions, AxisType axis)
+         {
+             RotationShape res=new RotationShape();
+            int GeneralCount = general.Count();
+             //Line axis;
+            int Count=divisions;
+            int angle= (int)360.0f / Count;//угол 
+            List<Line> edges;//ребра
+            List<Point> genline = general;
+            res.addPoints(general);//добавили образующую
+            for (int i = 1; i < divisions; i++)//количество разбиений
+            {
+                res.addPoints(Geometry.RotatePoint(general,axis ,angle * i ));
+            }
+            //
+            return res;
+             //Фигура вращения задаётся тремя параметрами: образующей(набор точек), осью вращения и количеством разбиений
+             //зададим ребра и грани
+
+         }
+        
     }
 }
