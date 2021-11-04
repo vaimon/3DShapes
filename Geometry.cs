@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,8 +12,10 @@ namespace _3DShapes
     /// <summary>
     /// Тип проекции на экран
     /// </summary>
-    public enum ProjectionType { ISOMETRIC, PERSPECTIVE, TRIMETRIC }
-       /// <summary>
+
+    public enum ProjectionType { ISOMETRIC, PERSPECTIVE, TRIMETRIC, DIMETRIC }
+
+    /// <summary>
     /// Точка в пространстве
     /// </summary>
     class Point
@@ -22,6 +25,7 @@ namespace _3DShapes
         public static PointF worldCenter;
         static Matrix isometricMatrix = new Matrix(3,3).fill(Math.Sqrt(3),0,-Math.Sqrt(3),1,2,1, Math.Sqrt(2),-Math.Sqrt(2), Math.Sqrt(2)) * (1/ Math.Sqrt(6));
         static Matrix trimetricMatrix = new Matrix(4, 4).fill(Math.Sqrt(3)/2, Math.Sqrt(2)/4, 0, 1, 0, Math.Sqrt(2)/2, 0, 1, 0.5,-Math.Sqrt(6)/4,0,0,0,0,0,1);
+        static Matrix dimetricMatrix = new Matrix(4, 4).fill(0.926,0.134,0,0,0,0.935,0,0,0.378,-0.327,0,0,0,0,0,1);
         static Matrix centralMatrix = new Matrix(4, 4).fill(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, k, 0, 0, 0, 1);
         const double k = 0.001f;
         public Point(int x, int y, int z)
@@ -58,8 +62,13 @@ namespace _3DShapes
             }
             else if (projection == ProjectionType.TRIMETRIC)
             {
-                Matrix res = new Matrix(1, 4).fill(Xf, Yf, Zf, 1) * trimetricMatrix;
+                Matrix res = new Matrix(1, 4).fill(Yf, Zf, Xf, 1) * trimetricMatrix;
                 return new PointF(worldCenter.X + (float)res[0,0], worldCenter.Y + (float)res[0, 1]);
+            }
+            else if (projection == ProjectionType.DIMETRIC)
+            {
+                Matrix res = new Matrix(1, 4).fill(Xf, Yf, Zf, 1) * dimetricMatrix;
+                return new PointF(worldCenter.X + (float)res[0, 0], worldCenter.Y + (float)res[0, 1]);
             }
             else
             {
@@ -186,35 +195,144 @@ namespace _3DShapes
         {
             return "";
         }
+
+        /// <summary>
+        /// Виртуальный метод, чтобы наследники могли возвращать свои имена
+        /// </summary>
+        /// <returns></returns>
+        public virtual String getShapeName()
+        {
+            return "SHAPE";
+        }
+
+        // читает модель многогранника из файла
+        public static Shape readShape(string fileName)
+        {
+            Shape res = new Shape();
+            StreamReader sr = new StreamReader(fileName);
+            List<Line> edgs = new List<Line>();
+
+            // название фигуры
+            string line = sr.ReadLine(); 
+            if (line != null)
+            {
+                switch (line)
+                {
+                    case "TETRAHEDRON":
+                        res = new Tetrahedron();
+                        break;
+                    case "HEXAHEDRON":
+                        res = new Hexahedron();
+                        break;
+                    case "OCTAHEDRON":
+                        res = new Octahedron();
+                        break;
+                    case "ICOSAHEDRON":
+                        res = new Icosahedron();
+                        break;
+                    case "DODECAHEDRON":
+                        res = new Dodecahedron();
+                        break;
+                    case "SURFACESEGMENT":
+                        res = new SurfaceSegment();
+                        break;
+                    default:
+                        throw new Exception("Такой фигуры нет :с");
+                }
+            }
+            line = sr.ReadLine();
+            if (line != null)
+            {
+                // какая-то доп информация
+                res.getAdditionalInfo();
+            }
+
+            line = sr.ReadLine();
+            // считываем данные о каждой грани
+            while (line != null)
+            {
+                string[] lineParse = line.Split(); // делим грань на ребра
+                foreach (string pointLine in lineParse)
+                {
+                    if (pointLine == "")
+                        break;
+                    string[] str = pointLine.Split(';'); // делим на точки начала и конца ребер
+                    var startPoint = str[0].Split(','); // начало ребра
+                    var endPoint = str[1].Split(','); // конец ребра
+
+                    // добавляем новое ребро текущей грани
+                    edgs.Add(new Line(new Point(int.Parse(startPoint[0]), int.Parse(startPoint[1]), int.Parse(startPoint[2])), new Point(int.Parse(endPoint[0]), int.Parse(endPoint[1]), int.Parse(endPoint[2]))));
+                }
+                res.addFace(new Face(edgs)); // добавляем целую грань фигуры
+                edgs = new List<Line>();
+                line = sr.ReadLine();
+            }
+            sr.Close();
+            return res;
+        }
+
+        // сохраняет модель многогранника в файл
+        public void saveShape(string fileName)
+        {
+            // очистка файла
+            File.WriteAllText(fileName, String.Empty);
+
+            // запись в файл
+            StreamWriter sw = new StreamWriter(fileName);
+            sw.WriteLine(this.getShapeName()); // название фигуры
+            sw.WriteLine(this.getAdditionalInfo()); // дополнительная информация
+            foreach (Face face in this.Faces)
+            {
+                foreach (Line edge in face.Edges)
+                {
+                    sw.Write(edge.Start.X + "," + edge.Start.Y + "," + edge.Start.Z + ";" + edge.End.X + "," + edge.End.Y + "," + edge.End.Z + " ");
+                }
+                sw.WriteLine();
+            }
+            sw.Close();
+        }
     }
 
     class Tetrahedron : Shape
     {
-
+        public override String getShapeName()
+        {
+            return "TETRAHEDRON";
+        }
     }
 
     class Octahedron : Shape
     {
-
+        public override String getShapeName()
+        {
+            return "OCTAHEDRON";
+        }
     }
 
     class Hexahedron : Shape
     {
-
+        public override String getShapeName()
+        {
+            return "HEXAHEDRON";
+        }
     }
 
     class Icosahedron : Shape
     {
-
+        public override String getShapeName()
+        {
+            return "ICOSAHEDRON";
+        }
     }
 
     class Dodecahedron : Shape
     {
-        public override String getAdditionalInfo()
+        public override String getShapeName()
         {
-            return "I AM DODECAHEDRON";
+            return "DODECAHEDRON";
         }
     }
+
     /// <summary>
     /// Класс фигур вращения
     /// </summary>
@@ -269,7 +387,33 @@ namespace _3DShapes
         
     }
    
+    
+    class SurfaceSegment : Shape
+    {
+        int x0, x1, y0, y1;
+        int splitting;
 
+        public SurfaceSegment()
+        {
+        }
+
+        public SurfaceSegment(int x0, int x1, int y0, int y1, int splitting)
+        {
+            this.x0 = x0;
+            this.x1 = x1;
+            this.y0 = y0;
+            this.y1 = y1;
+            this.splitting = splitting;
+        }
+
+
+
+        public override String getShapeName()
+        {
+            return "SURFACESEGMENT";
+        }
+    }
+    
     class Geometry
     {
         /// <summary>
@@ -537,6 +681,7 @@ namespace _3DShapes
             return res;
         }
 
+
         /// 
         /// <summary>
         /// Получение фигуры вращения
@@ -593,5 +738,24 @@ namespace _3DShapes
             return res;
         }
         
+        public static SurfaceSegment getSurfaceSegment(Func<double,double,double> fun, int x0, int x1, int y0, int y1, int splitting)
+        {
+            SurfaceSegment res = new SurfaceSegment(x0, x1, y0, y1, splitting);
+            double stepX = Math.Abs(x1 - x0) * 1.0 / splitting;
+            double stepY = Math.Abs(y1 - y0) * 1.0 / splitting;
+            for (double x = x0; x < x1; x+= stepX)
+            {
+                for (double y = y0; y < y1; y += stepY)
+                {
+                    var face = new Face();
+                    face.addEdge(new Line(new Point(x, y, fun(x, y)), new Point(x + stepX, y, fun(x + stepX, y))));
+                    face.addEdge(new Line(new Point(x + stepX, y, fun(x + stepX, y)), new Point(x + stepX, y + stepY, fun(x + stepX, y + stepY))));
+                    face.addEdge(new Line(new Point(x + stepX, y + stepY, fun(x + stepX, y + stepY)), new Point(x, y + stepY, fun(x, y + stepY))));
+                    face.addEdge(new Line(new Point(x, y + stepY, fun(x, y + stepY)), new Point(x, y, fun(x, y))));
+                    res.addFace(face);
+                }
+            }
+            return res;
+        }
     }
 }

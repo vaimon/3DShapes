@@ -32,11 +32,11 @@ namespace _3DShapes
             axizRotate.SelectedIndex = 0;
             g = canvas.CreateGraphics();
 
-            // Здесь мы задаём Декартову систему координат на канвасе
+            // Г‡Г¤ГҐГ±Гј Г¬Г» Г§Г Г¤Г ВёГ¬ Г„ГҐГЄГ Г°ГІГ®ГўГі Г±ГЁГ±ГІГҐГ¬Гі ГЄГ®Г®Г°Г¤ГЁГ­Г ГІ Г­Г  ГЄГ Г­ГўГ Г±ГҐ
             g.ScaleTransform(1.0F, -1.0F);
             g.TranslateTransform(0.0F, -(float)canvas.Height);
 
-            // А здесь задаём точку начала координат
+            // ГЂ Г§Г¤ГҐГ±Гј Г§Г Г¤Г ВёГ¬ ГІГ®Г·ГЄГі Г­Г Г·Г Г«Г  ГЄГ®Г®Г°Г¤ГЁГ­Г ГІ
             Point.worldCenter = new PointF(canvas.Width / 2, canvas.Height / 2);
             setFlags();
         }
@@ -50,6 +50,7 @@ namespace _3DShapes
             rbAxonometric.Enabled = interactiveMode;
             rbPerspective.Enabled = interactiveMode;
             rbIsometric.Enabled = interactiveMode;
+            rbDimetric.Enabled = interactiveMode;
             btnShowAxis.Enabled = interactiveMode;
             textAngle.Enabled = interactiveMode;
             textScaleX.Enabled = interactiveMode;
@@ -69,8 +70,8 @@ namespace _3DShapes
             etY0.Enabled = !interactiveMode;
             etY1.Enabled = !interactiveMode;
             tabControl.Enabled = !interactiveMode;
-            btnLoad.Text = interactiveMode ? "Сохранить" : "Загрузить из файла";
-            buttonShape.Text = interactiveMode ? "Очистить" : "Нарисовать";
+            btnLoad.Text = interactiveMode ? "Г‘Г®ГµГ°Г Г­ГЁГІГј" : "Г‡Г ГЈГ°ГіГ§ГЁГІГј ГЁГ§ ГґГ Г©Г«Г ";
+            buttonShape.Text = interactiveMode ? "ГЋГ·ГЁГ±ГІГЁГІГј" : "ГЌГ Г°ГЁГ±Г®ГўГ ГІГј";
             selectShape.Enabled = !interactiveMode;
         }
 
@@ -83,7 +84,7 @@ namespace _3DShapes
                 case 2: currentShapeType = ShapeType.OCTAHEDRON; break;
                 case 3: currentShapeType = ShapeType.ICOSAHEDRON; break;
                 case 4: currentShapeType = ShapeType.DODECAHEDRON; break;
-                default: throw new Exception("Фигурки всё сломали :(");
+                default: throw new Exception("Г”ГЁГЈГіГ°ГЄГЁ ГўГ±Вё Г±Г«Г®Г¬Г Г«ГЁ :(");
             }
         }
 
@@ -94,7 +95,7 @@ namespace _3DShapes
                 case 0: currentAxis = AxisType.X; break;
                 case 1: currentAxis = AxisType.Y; break;
                 case 2: currentAxis = AxisType.Z; break;
-                default: throw new Exception("Оси всё сломали :(");
+                default: throw new Exception("ГЋГ±ГЁ ГўГ±Вё Г±Г«Г®Г¬Г Г«ГЁ :(");
             }
         }
 
@@ -180,14 +181,14 @@ namespace _3DShapes
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            if (btnLoad.Text == "Загрузить из файла")
+            if (btnLoad.Text == "Г‡Г ГЈГ°ГіГ§ГЁГІГј ГЁГ§ ГґГ Г©Г«Г ")
             {
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     string fileName = openFileDialog1.FileName;
                     if (File.Exists(fileName))
                     {
-                        readShape(fileName);
+                        currentShape = Shape.readShape(fileName);
                         redraw();
                         setFlags(true);
                     }
@@ -196,7 +197,7 @@ namespace _3DShapes
             else
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                    saveShape(saveFileDialog1.FileName);
+                    currentShape.saveShape(saveFileDialog1.FileName);
             }
         }
 
@@ -237,10 +238,19 @@ namespace _3DShapes
                 case 0: AxisforRotate = AxisType.X; break;
                 case 1: AxisforRotate = AxisType.Y; break;
                 case 2: AxisforRotate = AxisType.Z; break;
-                default: throw new Exception("Оси всё сломали :(");
+                default: throw new Exception("ГЋГ±ГЁ ГўГ±Вё Г±Г«Г®Г¬Г Г«ГЁ :(");
             }
         }
 
        
+        private void rbDimetric_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbDimetric.Checked)
+            {
+                Point.projection = ProjectionType.DIMETRIC;
+                redraw();
+            }
+        }
+
     }
 }
