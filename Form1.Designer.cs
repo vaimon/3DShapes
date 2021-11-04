@@ -705,9 +705,9 @@ namespace _3DShapes
             this.Former.AutoSize = true;
             this.Former.Location = new System.Drawing.Point(10, 172);
             this.Former.Name = "Former";
-            this.Former.Size = new System.Drawing.Size(151, 20);
+            this.Former.Size = new System.Drawing.Size(158, 20);
             this.Former.TabIndex = 26;
-            this.Former.Text = "Задать образующую";
+            this.Former.Text = "Задать ось вращения";
             // 
             // getDiv
             // 

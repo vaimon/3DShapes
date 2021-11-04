@@ -21,6 +21,7 @@ namespace _3DShapes
         Func<double, double, double> currentFun;
         List<Point> RotationShapePoints=new List<Point>();
         int Div;
+        AxisType AxisforRotate;
 
 
         public Form1()
@@ -233,11 +234,13 @@ namespace _3DShapes
         {
             switch (axizRotate.SelectedIndex)
             {
-                case 0: currentAxis = AxisType.X; break;
-                case 1: currentAxis = AxisType.Y; break;
-                case 2: currentAxis = AxisType.Z; break;
+                case 0: AxisforRotate = AxisType.X; break;
+                case 1: AxisforRotate = AxisType.Y; break;
+                case 2: AxisforRotate = AxisType.Z; break;
                 default: throw new Exception("Оси всё сломали :(");
             }
         }
+
+       
     }
 }

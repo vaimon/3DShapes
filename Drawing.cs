@@ -37,6 +37,7 @@ namespace _3DShapes
             {
                 setFlags(false);
                 g.Clear(Color.White);
+                RotationShapePoints.Clear();
             }
             else
             {
@@ -53,7 +54,7 @@ namespace _3DShapes
                     else
                     {
                         Div = int.Parse(getDiv.Text);
-                        currentShape = ShapeGetter.getRotationShape(RotationShapePoints, Div, currentAxis);
+                        currentShape = ShapeGetter.getRotationShape(RotationShapePoints, Div, AxisforRotate);
                     }
                 }
                 
