@@ -312,7 +312,8 @@ namespace _3DShapes
             var matrfrompoint = new Matrix(4, 1).fill(p.X, p.Y, p.Z,1);
 
             var matrPoint = matrix * matrfrompoint;//применение преобразования к точке
-            Point newPoint = new Point(matrPoint[0, 0] / matrPoint[3, 0], matrPoint[1, 0] / matrPoint[3, 0], matrPoint[2, 0] / matrPoint[3, 0]);
+            //Point newPoint = new Point(matrPoint[0, 0] / matrPoint[3, 0], matrPoint[1, 0] / matrPoint[3, 0], matrPoint[2, 0] / matrPoint[3, 0]);
+            Point newPoint = new Point(matrPoint[0, 0], matrPoint[1, 0], matrPoint[2, 0]);
             return newPoint;
 
         }
@@ -340,7 +341,7 @@ namespace _3DShapes
         /// <param name="angle">угол вращения</param>
 
         /// <returns></returns>
-        public static List<Point> RotatePoint(List<Point> general, AxisType axis, int angle)
+        public static List<Point> RotatePoint(List<Point> general, AxisType axis, double angle)
         {
             List<Point> res;
             double mysin = Math.Sin(Geometry.degreesToRadians(angle));
@@ -350,13 +351,13 @@ namespace _3DShapes
             switch (axis)
             {
                 case AxisType.X:
-                    rotation = new Matrix(4, 4).fill(1, 0, 0, 0, 0, Geometry.Cos(angle), -Geometry.Sin(angle), 0, 0, Geometry.Sin(angle), Geometry.Cos(angle), 0, 0, 0, 0, 1);
+                    rotation = new Matrix(4, 4).fill(1, 0, 0, 0, 0, mycos, -mysin, 0, 0, mysin, mycos, 0, 0, 0, 0, 1);
                     break;
                 case AxisType.Y:
-                    rotation = new Matrix(4, 4).fill(Geometry.Cos(angle), 0, Geometry.Sin(angle), 0, 0, 1, 0, 0, -Geometry.Sin(angle), 0, Geometry.Cos(angle), 0, 0, 0, 0, 1);
+                    rotation = new Matrix(4, 4).fill(mycos, 0, mysin, 0, 0, 1, 0, 0, -mysin, 0, mycos, 0, 0, 0, 0, 1);
                     break;
                 case AxisType.Z:
-                    rotation = new Matrix(4, 4).fill(Geometry.Cos(angle), -Geometry.Sin(angle), 0, 0, Geometry.Sin(angle), Geometry.Cos(angle), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+                    rotation = new Matrix(4, 4).fill(mycos, -mysin, 0, 0, mysin, mycos, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
                     break;
             }
 
@@ -548,7 +549,7 @@ namespace _3DShapes
             int GeneralCount = genline.Count();
             //Line axis;
             int Count = divisions;
-            int angle = (int)360.0f / Count;//угол 
+            double angle = (360.0 / Count);//угол 
             List<Line> edges;//ребра
            
             res.addPoints(genline);//добавили образующую
