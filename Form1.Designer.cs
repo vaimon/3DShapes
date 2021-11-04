@@ -92,7 +92,6 @@ namespace _3DShapes
             this.pbFormula = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.rbDimetric = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.panel1.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -119,8 +118,8 @@ namespace _3DShapes
             this.rbAxonometric.BackColor = System.Drawing.Color.White;
             this.rbAxonometric.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.rbAxonometric.Checked = true;
-            this.rbAxonometric.Location = new System.Drawing.Point(1391, 45);
-
+            this.rbAxonometric.Location = new System.Drawing.Point(1113, 38);
+            this.rbAxonometric.Margin = new System.Windows.Forms.Padding(2);
             this.rbAxonometric.Name = "rbAxonometric";
             this.rbAxonometric.Size = new System.Drawing.Size(217, 24);
             this.rbAxonometric.TabIndex = 17;
@@ -388,10 +387,10 @@ namespace _3DShapes
             // 
             // btnShowAxis
             // 
-
-            this.btnShowAxis.Location = new System.Drawing.Point(1391, 146);
+            this.btnShowAxis.Location = new System.Drawing.Point(1113, 90);
+            this.btnShowAxis.Margin = new System.Windows.Forms.Padding(2);
             this.btnShowAxis.Name = "btnShowAxis";
-            this.btnShowAxis.Size = new System.Drawing.Size(288, 52);
+            this.btnShowAxis.Size = new System.Drawing.Size(230, 42);
             this.btnShowAxis.TabIndex = 18;
             this.btnShowAxis.Text = "Показать точки и оси";
             this.btnShowAxis.UseVisualStyleBackColor = true;
@@ -810,19 +809,6 @@ namespace _3DShapes
             this.saveFileDialog1.DefaultExt = "txt";
             this.saveFileDialog1.Filter = "TXT|*.txt";
             // 
-            // rbDimetric
-            // 
-            this.rbDimetric.AutoSize = true;
-            this.rbDimetric.BackColor = System.Drawing.Color.White;
-            this.rbDimetric.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.rbDimetric.Location = new System.Drawing.Point(1391, 111);
-            this.rbDimetric.Name = "rbDimetric";
-            this.rbDimetric.Size = new System.Drawing.Size(248, 29);
-            this.rbDimetric.TabIndex = 17;
-            this.rbDimetric.Text = "Диметрическая проекция";
-            this.rbDimetric.UseVisualStyleBackColor = false;
-            this.rbDimetric.CheckedChanged += new System.EventHandler(this.rbDimetric_CheckedChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -835,7 +821,6 @@ namespace _3DShapes
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnShowAxis);
             this.Controls.Add(this.rbPerspective);
-            this.Controls.Add(this.rbDimetric);
             this.Controls.Add(this.rbIsometric);
             this.Controls.Add(this.rbAxonometric);
             this.Controls.Add(this.label4);
@@ -933,7 +918,6 @@ namespace _3DShapes
         private System.Windows.Forms.PictureBox pbFormula;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-
         private System.Windows.Forms.TabPage tabPageRotate;
         private System.Windows.Forms.ComboBox axizRotate;
         private System.Windows.Forms.Label Former;
@@ -946,8 +930,6 @@ namespace _3DShapes
         private System.Windows.Forms.Label axZ;
         private System.Windows.Forms.Label axY;
         private System.Windows.Forms.Label axX;
-        private System.Windows.Forms.RadioButton rbDimetric;
-
     }
 }
 
