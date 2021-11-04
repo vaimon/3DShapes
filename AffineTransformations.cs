@@ -22,7 +22,7 @@ namespace _3DShapes
         {
             if (isScaleModeWorldCenter)
             {
-                scale(ref currentShape, int.Parse(textScaleX.Text), int.Parse(textScaleY.Text), int.Parse(textScaleZ.Text));
+                scale(ref currentShape, double.Parse(textScaleX.Text.Replace('.', ',')), double.Parse(textScaleY.Text.Replace('.', ',')), double.Parse(textScaleZ.Text.Replace('.', ',')));
                 redraw();
             }
             else
@@ -38,9 +38,9 @@ namespace _3DShapes
 
                 // центр фигуры
                 Point center = new Point(sumX / currentShape.Faces.Count(), sumY / currentShape.Faces.Count(), sumZ / currentShape.Faces.Count());
-                double cx = double.Parse(textScaleX.Text);
-                double cy = double.Parse(textScaleY.Text);
-                double cz = double.Parse(textScaleZ.Text);
+                double cx = double.Parse(textScaleX.Text.Replace('.', ','));
+                double cy = double.Parse(textScaleY.Text.Replace('.', ','));
+                double cz = double.Parse(textScaleZ.Text.Replace('.', ','));
                 shift(ref currentShape, -center.Xf, -center.Yf, -center.Zf);
                 scale(ref currentShape, cx, cy, cz);
                 shift(ref currentShape, center.Xf, center.Yf, center.Zf);

@@ -187,7 +187,7 @@ namespace _3DShapes
                     string fileName = openFileDialog1.FileName;
                     if (File.Exists(fileName))
                     {
-                        readShape(fileName);
+                        currentShape = Shape.readShape(fileName);
                         redraw();
                         setFlags(true);
                     }
@@ -196,7 +196,7 @@ namespace _3DShapes
             else
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                    saveShape(saveFileDialog1.FileName);
+                    currentShape.saveShape(saveFileDialog1.FileName);
             }
         }
 
@@ -241,6 +241,13 @@ namespace _3DShapes
             }
         }
 
-       
+        private void rbDimetric_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (rbDimetric.Checked)
+            {
+                Point.projection = ProjectionType.DIMETRIC;
+                redraw();
+            }
+        }
     }
 }
