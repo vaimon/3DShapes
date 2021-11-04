@@ -137,7 +137,7 @@ namespace _3DShapes
     class Shape
     {
         List<Face> faces;
-
+      
         public Shape()
         {
             faces = new List<Face>();
@@ -225,9 +225,22 @@ namespace _3DShapes
         Line axiz;
         int Divisions;
         List<Point> allpoints;
+        List<Line> edges;//ребра
         public RotationShape()
         {
             allpoints = new List<Point>();
+            edges = new List<Line>();
+        }
+        public List<Line> Edges { get => edges; }
+        public Shape addEdge(Line edge)
+        {
+            edges.Add(edge);
+            return this;
+        }
+        public Shape addEdges(IEnumerable<Line> ed)
+        {
+            this.edges.AddRange(ed);
+            return this;
         }
 
         public RotationShape(IEnumerable<Point> points) : this()
@@ -296,7 +309,7 @@ namespace _3DShapes
         public static Point transformPoint(Point p, Matrix matrix)
 
         {
-            var matrfrompoint = new Matrix(4, 4).fill(p.X, p.Y, p.Z);
+            var matrfrompoint = new Matrix(4, 1).fill(p.X, p.Y, p.Z,1);
 
             var matrPoint = matrix * matrfrompoint;//применение преобразования к точке
             Point newPoint = new Point(matrPoint[0, 0] / matrPoint[3, 0], matrPoint[1, 0] / matrPoint[3, 0], matrPoint[2, 0] / matrPoint[3, 0]);
@@ -372,11 +385,12 @@ namespace _3DShapes
                 case ShapeType.HEXAHEDRON: return getHexahedron();
                 case ShapeType.ICOSAHEDRON: return getIcosahedron();
                 case ShapeType.DODECAHEDRON: return getDodecahedron();
-               // case ShapeType.ROTATION_SHAPE: return getRotationShape();
+               
 
                 default: throw new Exception("C# очень умный (нет)");
             }
         }
+       
         /// <summary>
         /// Получение тетраэдра
         /// </summary>
@@ -546,18 +560,28 @@ namespace _3DShapes
          
             //Фигура вращения задаётся тремя параметрами: образующей(набор точек), осью вращения и количеством разбиений
             //зададим ребра и грани
-            for (int i = 1; i < divisions; i++)
+            for (int i = 0; i < divisions; i++)
             {
-                for (int j = 1; i < GeneralCount; j++)
+                for (int j = 0;  j < GeneralCount; j++)
                 {
-                    int current = i * GeneralCount + j;
-                    if ((current + 1) % GeneralCount == 0)
+                    int current = i * GeneralCount + j;//индекс точки
+                    if (current < divisions * GeneralCount)
                     {
-                        double e = (current + GeneralCount) % res.Points.Count;
-                       // res.addFace(new Face().addEdge(new Line(current, e));
+                        int e = (current + GeneralCount) % res.Points.Count;
+                        if ((current + 1) % GeneralCount == 0)
+                        {
 
-
-                        
+                            // res.addFace(new Face().addEdge(new Line( res.Points[current], res.Points[e])));
+                            res.addEdge(new Line(res.Points[current], res.Points[e]));
+                        }
+                        else
+                        {
+                            res.addEdge(new Line(res.Points[current], res.Points[current + 1]));
+                            res.addEdge(new Line(res.Points[current], res.Points[e]));
+                            int e1 = (current + 1 + GeneralCount) % res.Points.Count;
+                            //добавим грань
+                            res.addFace(new Face().addEdge(new Line(res.Points[current], res.Points[current + 1])).addEdge(new Line(res.Points[current + 1], res.Points[e1])).addEdge(new Line(res.Points[e1], res.Points[e])).addEdge(new Line(res.Points[e], res.Points[current])));
+                        }
                     }
                     
                 }

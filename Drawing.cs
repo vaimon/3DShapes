@@ -53,6 +53,7 @@ namespace _3DShapes
                     else
                     {
                         Div = int.Parse(getDiv.Text);
+                        currentShape = ShapeGetter.getRotationShape(RotationShapePoints, Div, currentAxis);
                     }
                 }
                 

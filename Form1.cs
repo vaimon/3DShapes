@@ -22,11 +22,13 @@ namespace _3DShapes
         List<Point> RotationShapePoints=new List<Point>();
         int Div;
 
+
         public Form1()
         {
             InitializeComponent();
             selectShape.SelectedIndex = 0;
             selectAxis.SelectedIndex = 0;
+            axizRotate.SelectedIndex = 0;
             g = canvas.CreateGraphics();
 
             // Здесь мы задаём Декартову систему координат на канвасе
@@ -223,6 +225,19 @@ namespace _3DShapes
             Point p = new Point(x,y,z);
             RotationShapePoints.Add( p);
             //Div = int.Parse(getDiv.Text);
+        }
+
+        
+
+        private void axizRotate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (axizRotate.SelectedIndex)
+            {
+                case 0: currentAxis = AxisType.X; break;
+                case 1: currentAxis = AxisType.Y; break;
+                case 2: currentAxis = AxisType.Z; break;
+                default: throw new Exception("Оси всё сломали :(");
+            }
         }
     }
 }

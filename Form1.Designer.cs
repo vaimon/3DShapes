@@ -698,6 +698,7 @@ namespace _3DShapes
             this.axizRotate.Name = "axizRotate";
             this.axizRotate.Size = new System.Drawing.Size(151, 28);
             this.axizRotate.TabIndex = 23;
+            this.axizRotate.SelectedIndexChanged += new System.EventHandler(this.axizRotate_SelectedIndexChanged);
             // 
             // Former
             // 
