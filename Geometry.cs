@@ -544,17 +544,17 @@ namespace _3DShapes
         public static RotationShape getRotationShape(List<Point> general, int divisions, AxisType axis)
         {
             RotationShape res = new RotationShape();
-            
-            int GeneralCount = general.Count();
+             List<Point> genline = general;
+            int GeneralCount = genline.Count();
             //Line axis;
             int Count = divisions;
             int angle = (int)360.0f / Count;//угол 
             List<Line> edges;//ребра
-            List<Point> genline = general;
-            res.addPoints(general);//добавили образующую
+           
+            res.addPoints(genline);//добавили образующую
             for (int i = 1; i < divisions; i++)//количество разбиений
             {
-                res.addPoints(Geometry.RotatePoint(general, axis, angle * i));
+                res.addPoints(Geometry.RotatePoint(genline, axis, angle * i));
             }
             //
          
@@ -564,23 +564,23 @@ namespace _3DShapes
             {
                 for (int j = 0;  j < GeneralCount; j++)
                 {
-                    int current = i * GeneralCount + j;//индекс точки
-                    if (current < divisions * GeneralCount)
+                    int index = i * GeneralCount + j;//индекс точки
+                    if (index < divisions * GeneralCount)
                     {
-                        int e = (current + GeneralCount) % res.Points.Count;
-                        if ((current + 1) % GeneralCount == 0)
+                        int e = (index + GeneralCount) % res.Points.Count;
+                        if ((index + 1) % GeneralCount == 0)
                         {
 
                             // res.addFace(new Face().addEdge(new Line( res.Points[current], res.Points[e])));
-                            res.addEdge(new Line(res.Points[current], res.Points[e]));
+                            res.addEdge(new Line(res.Points[index], res.Points[e]));
                         }
                         else
                         {
-                            res.addEdge(new Line(res.Points[current], res.Points[current + 1]));
-                            res.addEdge(new Line(res.Points[current], res.Points[e]));
-                            int e1 = (current + 1 + GeneralCount) % res.Points.Count;
+                            res.addEdge(new Line(res.Points[index], res.Points[index + 1]));
+                            res.addEdge(new Line(res.Points[index], res.Points[e]));
+                            int e1 = (index + 1 + GeneralCount) % res.Points.Count;
                             //добавим грань
-                            res.addFace(new Face().addEdge(new Line(res.Points[current], res.Points[current + 1])).addEdge(new Line(res.Points[current + 1], res.Points[e1])).addEdge(new Line(res.Points[e1], res.Points[e])).addEdge(new Line(res.Points[e], res.Points[current])));
+                            res.addFace(new Face().addEdge(new Line(res.Points[index], res.Points[index + 1])).addEdge(new Line(res.Points[index + 1], res.Points[e1])).addEdge(new Line(res.Points[e1], res.Points[e])).addEdge(new Line(res.Points[e], res.Points[index])));
                         }
                     }
                     
