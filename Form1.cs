@@ -19,12 +19,17 @@ namespace _3DShapes
         double shifty =0;
         double shiftz =0;
         Func<double, double, double> currentFun;
+        List<Point> RotationShapePoints=new List<Point>();
+        int Div;
+        AxisType AxisforRotate;
+
 
         public Form1()
         {
             InitializeComponent();
             selectShape.SelectedIndex = 0;
             selectAxis.SelectedIndex = 0;
+            axizRotate.SelectedIndex = 0;
             g = canvas.CreateGraphics();
 
             // Здесь мы задаём Декартову систему координат на канвасе
@@ -45,7 +50,6 @@ namespace _3DShapes
             rbAxonometric.Enabled = interactiveMode;
             rbPerspective.Enabled = interactiveMode;
             rbIsometric.Enabled = interactiveMode;
-            rbDimetric.Enabled = interactiveMode;
             btnShowAxis.Enabled = interactiveMode;
             textAngle.Enabled = interactiveMode;
             textScaleX.Enabled = interactiveMode;
@@ -214,7 +218,30 @@ namespace _3DShapes
             pbFormula.Visible = tabControl.SelectedIndex == 1;
         }
 
-        private void rbDimetric_CheckedChanged(object sender, EventArgs e)
+        private void AddPoint_Click(object sender, EventArgs e)
+        {
+            int x = int.Parse(getX.Text);
+            int y = int.Parse(getY.Text);
+            int z = int.Parse(getZ.Text);
+            Point p = new Point(x,y,z);
+            RotationShapePoints.Add( p);
+            //Div = int.Parse(getDiv.Text);
+        }
+
+        
+
+        private void axizRotate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (axizRotate.SelectedIndex)
+            {
+                case 0: AxisforRotate = AxisType.X; break;
+                case 1: AxisforRotate = AxisType.Y; break;
+                case 2: AxisforRotate = AxisType.Z; break;
+                default: throw new Exception("Оси всё сломали :(");
+            }
+        }
+
+        private void rbDimetric_CheckedChanged_1(object sender, EventArgs e)
         {
             if (rbDimetric.Checked)
             {

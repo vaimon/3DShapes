@@ -11,7 +11,7 @@ namespace _3DShapes
     /// <summary>
     /// Тип объёмной фигуры
     /// </summary>
-    public enum ShapeType { TETRAHEDRON, HEXAHEDRON, OCTAHEDRON, ICOSAHEDRON, DODECAHEDRON }
+    public enum ShapeType { TETRAHEDRON, HEXAHEDRON, OCTAHEDRON, ICOSAHEDRON, DODECAHEDRON,ROTATION_SHAPE }
 
     public partial class Form1
     {
@@ -37,6 +37,7 @@ namespace _3DShapes
             {
                 setFlags(false);
                 g.Clear(Color.White);
+                RotationShapePoints.Clear();
             }
             else
             {
@@ -46,7 +47,15 @@ namespace _3DShapes
                 }
                 else
                 {
-                    currentShape = ShapeGetter.getSurfaceSegment(currentFun,int.Parse(etX0.Text), int.Parse(etX1.Text), int.Parse(etY0.Text), int.Parse(etY1.Text), int.Parse(etSplit.Text));
+                    if (tabControl.SelectedIndex == 1)
+                    {
+                        currentShape = ShapeGetter.getSurfaceSegment(currentFun, int.Parse(etX0.Text), int.Parse(etX1.Text), int.Parse(etY0.Text), int.Parse(etY1.Text), int.Parse(etSplit.Text));
+                    }
+                    else
+                    {
+                        Div = int.Parse(getDiv.Text);
+                        currentShape = ShapeGetter.getRotationShape(RotationShapePoints, Div, AxisforRotate);
+                    }
                 }
                 
                 redraw();

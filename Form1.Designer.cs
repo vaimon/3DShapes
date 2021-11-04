@@ -77,6 +77,18 @@ namespace _3DShapes
             this.label11 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.tabPageRotate = new System.Windows.Forms.TabPage();
+            this.axizRotate = new System.Windows.Forms.ComboBox();
+            this.Former = new System.Windows.Forms.Label();
+            this.getDiv = new System.Windows.Forms.TextBox();
+            this.Divisions = new System.Windows.Forms.Label();
+            this.AddPoint = new System.Windows.Forms.Button();
+            this.getZ = new System.Windows.Forms.TextBox();
+            this.getY = new System.Windows.Forms.TextBox();
+            this.getX = new System.Windows.Forms.TextBox();
+            this.axZ = new System.Windows.Forms.Label();
+            this.axY = new System.Windows.Forms.Label();
+            this.axX = new System.Windows.Forms.Label();
             this.pbFormula = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -86,6 +98,7 @@ namespace _3DShapes
             this.tabControl.SuspendLayout();
             this.tabPageShape.SuspendLayout();
             this.tabPagePlot.SuspendLayout();
+            this.tabPageRotate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbFormula)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,6 +107,7 @@ namespace _3DShapes
             this.canvas.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.canvas.Dock = System.Windows.Forms.DockStyle.Right;
             this.canvas.Location = new System.Drawing.Point(292, 0);
+            this.canvas.Margin = new System.Windows.Forms.Padding(2);
             this.canvas.Name = "canvas";
             this.canvas.Size = new System.Drawing.Size(1399, 985);
             this.canvas.TabIndex = 0;
@@ -106,6 +120,7 @@ namespace _3DShapes
             this.rbAxonometric.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.rbAxonometric.Checked = true;
             this.rbAxonometric.Location = new System.Drawing.Point(1391, 45);
+            this.rbAxonometric.Margin = new System.Windows.Forms.Padding(2);
             this.rbAxonometric.Name = "rbAxonometric";
             this.rbAxonometric.Size = new System.Drawing.Size(256, 29);
             this.rbAxonometric.TabIndex = 17;
@@ -120,6 +135,7 @@ namespace _3DShapes
             this.rbPerspective.BackColor = System.Drawing.Color.White;
             this.rbPerspective.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.rbPerspective.Location = new System.Drawing.Point(1391, 12);
+            this.rbPerspective.Margin = new System.Windows.Forms.Padding(2);
             this.rbPerspective.Name = "rbPerspective";
             this.rbPerspective.Size = new System.Drawing.Size(246, 29);
             this.rbPerspective.TabIndex = 17;
@@ -130,8 +146,9 @@ namespace _3DShapes
             // buttonShape
             // 
             this.buttonShape.Location = new System.Drawing.Point(16, 442);
+            this.buttonShape.Margin = new System.Windows.Forms.Padding(2);
             this.buttonShape.Name = "buttonShape";
-            this.buttonShape.Size = new System.Drawing.Size(263, 43);
+            this.buttonShape.Size = new System.Drawing.Size(262, 42);
             this.buttonShape.TabIndex = 1;
             this.buttonShape.Text = "Нарисовать";
             this.buttonShape.UseVisualStyleBackColor = true;
@@ -145,8 +162,10 @@ namespace _3DShapes
             "Гексаэдр",
             "Октаэдр",
             "Икосаэдр",
-            "Додекаэдр"});
+            "Додекаэдр",
+            "Фигура вращения"});
             this.selectShape.Location = new System.Drawing.Point(20, 16);
+            this.selectShape.Margin = new System.Windows.Forms.Padding(2);
             this.selectShape.Name = "selectShape";
             this.selectShape.Size = new System.Drawing.Size(225, 33);
             this.selectShape.TabIndex = 2;
@@ -156,8 +175,9 @@ namespace _3DShapes
             // 
             this.buttonShift.Enabled = false;
             this.buttonShift.Location = new System.Drawing.Point(12, 589);
+            this.buttonShift.Margin = new System.Windows.Forms.Padding(2);
             this.buttonShift.Name = "buttonShift";
-            this.buttonShift.Size = new System.Drawing.Size(273, 43);
+            this.buttonShift.Size = new System.Drawing.Size(272, 42);
             this.buttonShift.TabIndex = 1;
             this.buttonShift.Text = "Сместить";
             this.buttonShift.UseVisualStyleBackColor = true;
@@ -166,9 +186,10 @@ namespace _3DShapes
             // buttonRotate
             // 
             this.buttonRotate.Enabled = false;
-            this.buttonRotate.Location = new System.Drawing.Point(12, 703);
+            this.buttonRotate.Location = new System.Drawing.Point(12, 702);
+            this.buttonRotate.Margin = new System.Windows.Forms.Padding(2);
             this.buttonRotate.Name = "buttonRotate";
-            this.buttonRotate.Size = new System.Drawing.Size(273, 43);
+            this.buttonRotate.Size = new System.Drawing.Size(272, 42);
             this.buttonRotate.TabIndex = 1;
             this.buttonRotate.Text = "Повернуть";
             this.buttonRotate.UseVisualStyleBackColor = true;
@@ -178,9 +199,10 @@ namespace _3DShapes
             // 
             this.textAngle.Enabled = false;
             this.textAngle.Location = new System.Drawing.Point(72, 665);
+            this.textAngle.Margin = new System.Windows.Forms.Padding(2);
             this.textAngle.MaxLength = 5;
             this.textAngle.Name = "textAngle";
-            this.textAngle.Size = new System.Drawing.Size(67, 31);
+            this.textAngle.Size = new System.Drawing.Size(66, 31);
             this.textAngle.TabIndex = 3;
             this.textAngle.Text = "0";
             // 
@@ -188,6 +210,7 @@ namespace _3DShapes
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 668);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 25);
             this.label3.TabIndex = 4;
@@ -198,8 +221,9 @@ namespace _3DShapes
             this.buttonScale.Enabled = false;
             this.buttonScale.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonScale.Location = new System.Drawing.Point(12, 921);
+            this.buttonScale.Margin = new System.Windows.Forms.Padding(2);
             this.buttonScale.Name = "buttonScale";
-            this.buttonScale.Size = new System.Drawing.Size(273, 43);
+            this.buttonScale.Size = new System.Drawing.Size(272, 42);
             this.buttonScale.TabIndex = 1;
             this.buttonScale.Text = "Отмасштабировать";
             this.buttonScale.UseVisualStyleBackColor = true;
@@ -208,7 +232,8 @@ namespace _3DShapes
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(207, 555);
+            this.label6.Location = new System.Drawing.Point(208, 555);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(26, 25);
             this.label6.TabIndex = 8;
@@ -218,6 +243,7 @@ namespace _3DShapes
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(110, 555);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(26, 25);
             this.label2.TabIndex = 9;
@@ -227,6 +253,7 @@ namespace _3DShapes
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 555);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(27, 25);
             this.label1.TabIndex = 10;
@@ -236,9 +263,10 @@ namespace _3DShapes
             // 
             this.textShiftZ.Enabled = false;
             this.textShiftZ.Location = new System.Drawing.Point(238, 552);
+            this.textShiftZ.Margin = new System.Windows.Forms.Padding(2);
             this.textShiftZ.MaxLength = 5;
             this.textShiftZ.Name = "textShiftZ";
-            this.textShiftZ.Size = new System.Drawing.Size(47, 31);
+            this.textShiftZ.Size = new System.Drawing.Size(46, 31);
             this.textShiftZ.TabIndex = 5;
             this.textShiftZ.Text = "0";
             this.textShiftZ.TextChanged += new System.EventHandler(this.textShiftZ_TextChanged);
@@ -247,6 +275,7 @@ namespace _3DShapes
             // 
             this.textShiftY.Enabled = false;
             this.textShiftY.Location = new System.Drawing.Point(142, 552);
+            this.textShiftY.Margin = new System.Windows.Forms.Padding(2);
             this.textShiftY.MaxLength = 5;
             this.textShiftY.Name = "textShiftY";
             this.textShiftY.Size = new System.Drawing.Size(50, 31);
@@ -257,7 +286,8 @@ namespace _3DShapes
             // textShiftX
             // 
             this.textShiftX.Enabled = false;
-            this.textShiftX.Location = new System.Drawing.Point(47, 552);
+            this.textShiftX.Location = new System.Drawing.Point(48, 552);
+            this.textShiftX.Margin = new System.Windows.Forms.Padding(2);
             this.textShiftX.MaxLength = 5;
             this.textShiftX.Name = "textShiftX";
             this.textShiftX.Size = new System.Drawing.Size(50, 31);
@@ -269,6 +299,7 @@ namespace _3DShapes
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(198, 785);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(34, 25);
             this.label4.TabIndex = 14;
@@ -277,7 +308,8 @@ namespace _3DShapes
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(102, 783);
+            this.label5.Location = new System.Drawing.Point(102, 782);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(34, 25);
             this.label5.TabIndex = 15;
@@ -287,6 +319,7 @@ namespace _3DShapes
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(10, 785);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(35, 25);
             this.label7.TabIndex = 16;
@@ -296,9 +329,10 @@ namespace _3DShapes
             // 
             this.textScaleZ.Enabled = false;
             this.textScaleZ.Location = new System.Drawing.Point(238, 782);
+            this.textScaleZ.Margin = new System.Windows.Forms.Padding(2);
             this.textScaleZ.MaxLength = 5;
             this.textScaleZ.Name = "textScaleZ";
-            this.textScaleZ.Size = new System.Drawing.Size(47, 31);
+            this.textScaleZ.Size = new System.Drawing.Size(46, 31);
             this.textScaleZ.TabIndex = 11;
             this.textScaleZ.Text = "1";
             this.textScaleZ.TextChanged += new System.EventHandler(this.textScaleZ_TextChanged);
@@ -307,6 +341,7 @@ namespace _3DShapes
             // 
             this.textScaleY.Enabled = false;
             this.textScaleY.Location = new System.Drawing.Point(142, 782);
+            this.textScaleY.Margin = new System.Windows.Forms.Padding(2);
             this.textScaleY.MaxLength = 5;
             this.textScaleY.Name = "textScaleY";
             this.textScaleY.Size = new System.Drawing.Size(50, 31);
@@ -317,7 +352,8 @@ namespace _3DShapes
             // textScaleX
             // 
             this.textScaleX.Enabled = false;
-            this.textScaleX.Location = new System.Drawing.Point(47, 782);
+            this.textScaleX.Location = new System.Drawing.Point(48, 782);
+            this.textScaleX.Margin = new System.Windows.Forms.Padding(2);
             this.textScaleX.MaxLength = 5;
             this.textScaleX.Name = "textScaleX";
             this.textScaleX.Size = new System.Drawing.Size(50, 31);
@@ -329,6 +365,7 @@ namespace _3DShapes
             // 
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(185, 668);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(47, 25);
             this.label8.TabIndex = 4;
@@ -342,15 +379,17 @@ namespace _3DShapes
             "X",
             "Y",
             "Z"});
-            this.selectAxis.Location = new System.Drawing.Point(238, 663);
+            this.selectAxis.Location = new System.Drawing.Point(238, 662);
+            this.selectAxis.Margin = new System.Windows.Forms.Padding(2);
             this.selectAxis.Name = "selectAxis";
-            this.selectAxis.Size = new System.Drawing.Size(47, 33);
+            this.selectAxis.Size = new System.Drawing.Size(46, 33);
             this.selectAxis.TabIndex = 2;
             this.selectAxis.SelectedIndexChanged += new System.EventHandler(this.selectAxis_SelectedIndexChanged);
             // 
             // btnShowAxis
             // 
-            this.btnShowAxis.Location = new System.Drawing.Point(1391, 146);
+            this.btnShowAxis.Location = new System.Drawing.Point(1376, 153);
+            this.btnShowAxis.Margin = new System.Windows.Forms.Padding(2);
             this.btnShowAxis.Name = "btnShowAxis";
             this.btnShowAxis.Size = new System.Drawing.Size(288, 52);
             this.btnShowAxis.TabIndex = 18;
@@ -364,6 +403,7 @@ namespace _3DShapes
             this.rbIsometric.BackColor = System.Drawing.Color.White;
             this.rbIsometric.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.rbIsometric.Location = new System.Drawing.Point(1391, 78);
+            this.rbIsometric.Margin = new System.Windows.Forms.Padding(2);
             this.rbIsometric.Name = "rbIsometric";
             this.rbIsometric.Size = new System.Drawing.Size(258, 29);
             this.rbIsometric.TabIndex = 17;
@@ -375,6 +415,7 @@ namespace _3DShapes
             // 
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(12, 818);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(131, 25);
             this.label9.TabIndex = 16;
@@ -384,15 +425,17 @@ namespace _3DShapes
             // 
             this.panel1.Controls.Add(this.rbCenter);
             this.panel1.Controls.Add(this.rbWorldCenter);
-            this.panel1.Location = new System.Drawing.Point(12, 847);
+            this.panel1.Location = new System.Drawing.Point(12, 848);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(273, 68);
+            this.panel1.Size = new System.Drawing.Size(272, 68);
             this.panel1.TabIndex = 19;
             // 
             // rbCenter
             // 
             this.rbCenter.AutoSize = true;
-            this.rbCenter.Location = new System.Drawing.Point(13, 43);
+            this.rbCenter.Location = new System.Drawing.Point(12, 42);
+            this.rbCenter.Margin = new System.Windows.Forms.Padding(2);
             this.rbCenter.Name = "rbCenter";
             this.rbCenter.Size = new System.Drawing.Size(154, 29);
             this.rbCenter.TabIndex = 0;
@@ -403,7 +446,8 @@ namespace _3DShapes
             // 
             this.rbWorldCenter.AutoSize = true;
             this.rbWorldCenter.Checked = true;
-            this.rbWorldCenter.Location = new System.Drawing.Point(13, 10);
+            this.rbWorldCenter.Location = new System.Drawing.Point(12, 10);
+            this.rbWorldCenter.Margin = new System.Windows.Forms.Padding(2);
             this.rbWorldCenter.Name = "rbWorldCenter";
             this.rbWorldCenter.Size = new System.Drawing.Size(85, 29);
             this.rbWorldCenter.TabIndex = 0;
@@ -418,8 +462,9 @@ namespace _3DShapes
             this.btnLoad.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnLoad.Location = new System.Drawing.Point(12, 12);
+            this.btnLoad.Margin = new System.Windows.Forms.Padding(2);
             this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(273, 43);
+            this.btnLoad.Size = new System.Drawing.Size(272, 42);
             this.btnLoad.TabIndex = 1;
             this.btnLoad.Text = "Загрузить из файла";
             this.btnLoad.UseVisualStyleBackColor = false;
@@ -428,8 +473,9 @@ namespace _3DShapes
             // btnChoosePlot
             // 
             this.btnChoosePlot.Location = new System.Drawing.Point(31, 20);
+            this.btnChoosePlot.Margin = new System.Windows.Forms.Padding(2);
             this.btnChoosePlot.Name = "btnChoosePlot";
-            this.btnChoosePlot.Size = new System.Drawing.Size(207, 46);
+            this.btnChoosePlot.Size = new System.Drawing.Size(208, 46);
             this.btnChoosePlot.TabIndex = 0;
             this.btnChoosePlot.Text = "Выбрать функцию";
             this.btnChoosePlot.UseVisualStyleBackColor = true;
@@ -439,7 +485,9 @@ namespace _3DShapes
             // 
             this.tabControl.Controls.Add(this.tabPageShape);
             this.tabControl.Controls.Add(this.tabPagePlot);
+            this.tabControl.Controls.Add(this.tabPageRotate);
             this.tabControl.Location = new System.Drawing.Point(12, 82);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(271, 354);
@@ -450,8 +498,9 @@ namespace _3DShapes
             // 
             this.tabPageShape.Controls.Add(this.selectShape);
             this.tabPageShape.Location = new System.Drawing.Point(4, 34);
+            this.tabPageShape.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageShape.Name = "tabPageShape";
-            this.tabPageShape.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageShape.Padding = new System.Windows.Forms.Padding(2);
             this.tabPageShape.Size = new System.Drawing.Size(263, 316);
             this.tabPageShape.TabIndex = 0;
             this.tabPageShape.Text = "Фигура";
@@ -474,8 +523,9 @@ namespace _3DShapes
             this.tabPagePlot.Controls.Add(this.label10);
             this.tabPagePlot.Controls.Add(this.btnChoosePlot);
             this.tabPagePlot.Location = new System.Drawing.Point(4, 34);
+            this.tabPagePlot.Margin = new System.Windows.Forms.Padding(2);
             this.tabPagePlot.Name = "tabPagePlot";
-            this.tabPagePlot.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPagePlot.Padding = new System.Windows.Forms.Padding(2);
             this.tabPagePlot.Size = new System.Drawing.Size(263, 316);
             this.tabPagePlot.TabIndex = 1;
             this.tabPagePlot.Text = "График";
@@ -483,7 +533,8 @@ namespace _3DShapes
             // 
             // etY1
             // 
-            this.etY1.Location = new System.Drawing.Point(147, 181);
+            this.etY1.Location = new System.Drawing.Point(148, 181);
+            this.etY1.Margin = new System.Windows.Forms.Padding(2);
             this.etY1.MaxLength = 6;
             this.etY1.Name = "etY1";
             this.etY1.PlaceholderText = "y1";
@@ -492,7 +543,8 @@ namespace _3DShapes
             // 
             // etX1
             // 
-            this.etX1.Location = new System.Drawing.Point(147, 133);
+            this.etX1.Location = new System.Drawing.Point(148, 132);
+            this.etX1.Margin = new System.Windows.Forms.Padding(2);
             this.etX1.MaxLength = 6;
             this.etX1.Name = "etX1";
             this.etX1.PlaceholderText = "x1";
@@ -501,7 +553,8 @@ namespace _3DShapes
             // 
             // etSplit
             // 
-            this.etSplit.Location = new System.Drawing.Point(182, 253);
+            this.etSplit.Location = new System.Drawing.Point(182, 252);
+            this.etSplit.Margin = new System.Windows.Forms.Padding(2);
             this.etSplit.MaxLength = 6;
             this.etSplit.Name = "etSplit";
             this.etSplit.Size = new System.Drawing.Size(68, 31);
@@ -510,6 +563,7 @@ namespace _3DShapes
             // etY0
             // 
             this.etY0.Location = new System.Drawing.Point(56, 181);
+            this.etY0.Margin = new System.Windows.Forms.Padding(2);
             this.etY0.MaxLength = 6;
             this.etY0.Name = "etY0";
             this.etY0.PlaceholderText = "y0";
@@ -518,7 +572,8 @@ namespace _3DShapes
             // 
             // etX0
             // 
-            this.etX0.Location = new System.Drawing.Point(56, 133);
+            this.etX0.Location = new System.Drawing.Point(56, 132);
+            this.etX0.Margin = new System.Windows.Forms.Padding(2);
             this.etX0.MaxLength = 6;
             this.etX0.Name = "etX0";
             this.etX0.PlaceholderText = "x0";
@@ -529,7 +584,8 @@ namespace _3DShapes
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label16.Location = new System.Drawing.Point(201, 167);
+            this.label16.Location = new System.Drawing.Point(201, 168);
+            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(31, 48);
             this.label16.TabIndex = 1;
@@ -540,6 +596,7 @@ namespace _3DShapes
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label13.Location = new System.Drawing.Point(201, 119);
+            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(31, 48);
             this.label13.TabIndex = 1;
@@ -550,6 +607,7 @@ namespace _3DShapes
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label17.Location = new System.Drawing.Point(10, 256);
+            this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(166, 25);
             this.label17.TabIndex = 1;
@@ -560,6 +618,7 @@ namespace _3DShapes
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label12.Location = new System.Drawing.Point(35, 92);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(196, 25);
             this.label12.TabIndex = 1;
@@ -569,7 +628,8 @@ namespace _3DShapes
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label15.Location = new System.Drawing.Point(116, 167);
+            this.label15.Location = new System.Drawing.Point(116, 168);
+            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(28, 48);
             this.label15.TabIndex = 1;
@@ -579,7 +639,8 @@ namespace _3DShapes
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label11.Location = new System.Drawing.Point(36, 167);
+            this.label11.Location = new System.Drawing.Point(36, 168);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(31, 48);
             this.label11.TabIndex = 1;
@@ -590,6 +651,7 @@ namespace _3DShapes
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label14.Location = new System.Drawing.Point(116, 119);
+            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(28, 48);
             this.label14.TabIndex = 1;
@@ -600,17 +662,151 @@ namespace _3DShapes
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label10.Location = new System.Drawing.Point(36, 119);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(31, 48);
             this.label10.TabIndex = 1;
             this.label10.Text = "[";
             // 
+            // tabPageRotate
+            // 
+            this.tabPageRotate.Controls.Add(this.axizRotate);
+            this.tabPageRotate.Controls.Add(this.Former);
+            this.tabPageRotate.Controls.Add(this.getDiv);
+            this.tabPageRotate.Controls.Add(this.Divisions);
+            this.tabPageRotate.Controls.Add(this.AddPoint);
+            this.tabPageRotate.Controls.Add(this.getZ);
+            this.tabPageRotate.Controls.Add(this.getY);
+            this.tabPageRotate.Controls.Add(this.getX);
+            this.tabPageRotate.Controls.Add(this.axZ);
+            this.tabPageRotate.Controls.Add(this.axY);
+            this.tabPageRotate.Controls.Add(this.axX);
+            this.tabPageRotate.Location = new System.Drawing.Point(4, 34);
+            this.tabPageRotate.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageRotate.Name = "tabPageRotate";
+            this.tabPageRotate.Size = new System.Drawing.Size(263, 316);
+            this.tabPageRotate.TabIndex = 2;
+            this.tabPageRotate.Text = "Фигура вращения";
+            this.tabPageRotate.UseVisualStyleBackColor = true;
+            // 
+            // axizRotate
+            // 
+            this.axizRotate.FormattingEnabled = true;
+            this.axizRotate.Items.AddRange(new object[] {
+            "OX",
+            "OY",
+            "OZ"});
+            this.axizRotate.Location = new System.Drawing.Point(18, 258);
+            this.axizRotate.Margin = new System.Windows.Forms.Padding(4);
+            this.axizRotate.Name = "axizRotate";
+            this.axizRotate.Size = new System.Drawing.Size(188, 33);
+            this.axizRotate.TabIndex = 23;
+            this.axizRotate.SelectedIndexChanged += new System.EventHandler(this.axizRotate_SelectedIndexChanged);
+            // 
+            // Former
+            // 
+            this.Former.AutoSize = true;
+            this.Former.Location = new System.Drawing.Point(12, 215);
+            this.Former.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Former.Name = "Former";
+            this.Former.Size = new System.Drawing.Size(187, 25);
+            this.Former.TabIndex = 26;
+            this.Former.Text = "Задать ось вращения";
+            // 
+            // getDiv
+            // 
+            this.getDiv.Location = new System.Drawing.Point(184, 158);
+            this.getDiv.Margin = new System.Windows.Forms.Padding(4);
+            this.getDiv.Name = "getDiv";
+            this.getDiv.Size = new System.Drawing.Size(60, 31);
+            this.getDiv.TabIndex = 25;
+            // 
+            // Divisions
+            // 
+            this.Divisions.AutoSize = true;
+            this.Divisions.Location = new System.Drawing.Point(10, 161);
+            this.Divisions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Divisions.Name = "Divisions";
+            this.Divisions.Size = new System.Drawing.Size(154, 25);
+            this.Divisions.TabIndex = 24;
+            this.Divisions.Text = "Число разбиений";
+            // 
+            // AddPoint
+            // 
+            this.AddPoint.AutoSize = true;
+            this.AddPoint.Location = new System.Drawing.Point(18, 104);
+            this.AddPoint.Margin = new System.Windows.Forms.Padding(4);
+            this.AddPoint.Name = "AddPoint";
+            this.AddPoint.Size = new System.Drawing.Size(189, 44);
+            this.AddPoint.TabIndex = 23;
+            this.AddPoint.Text = "Добавить точку";
+            this.AddPoint.UseVisualStyleBackColor = true;
+            this.AddPoint.Click += new System.EventHandler(this.AddPoint_Click);
+            // 
+            // getZ
+            // 
+            this.getZ.Location = new System.Drawing.Point(160, 50);
+            this.getZ.Margin = new System.Windows.Forms.Padding(4);
+            this.getZ.Name = "getZ";
+            this.getZ.Size = new System.Drawing.Size(34, 31);
+            this.getZ.TabIndex = 5;
+            // 
+            // getY
+            // 
+            this.getY.Location = new System.Drawing.Point(88, 50);
+            this.getY.Margin = new System.Windows.Forms.Padding(4);
+            this.getY.Name = "getY";
+            this.getY.Size = new System.Drawing.Size(34, 31);
+            this.getY.TabIndex = 4;
+            // 
+            // getX
+            // 
+            this.getX.Location = new System.Drawing.Point(12, 50);
+            this.getX.Margin = new System.Windows.Forms.Padding(4);
+            this.getX.Name = "getX";
+            this.getX.Size = new System.Drawing.Size(34, 31);
+            this.getX.TabIndex = 3;
+            // 
+            // axZ
+            // 
+            this.axZ.AutoSize = true;
+            this.axZ.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.axZ.Location = new System.Drawing.Point(168, 8);
+            this.axZ.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.axZ.Name = "axZ";
+            this.axZ.Size = new System.Drawing.Size(33, 38);
+            this.axZ.TabIndex = 2;
+            this.axZ.Text = "Z";
+            // 
+            // axY
+            // 
+            this.axY.AutoSize = true;
+            this.axY.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.axY.Location = new System.Drawing.Point(92, 8);
+            this.axY.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.axY.Name = "axY";
+            this.axY.Size = new System.Drawing.Size(32, 38);
+            this.axY.TabIndex = 1;
+            this.axY.Text = "Y";
+            // 
+            // axX
+            // 
+            this.axX.AutoSize = true;
+            this.axX.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.axX.Location = new System.Drawing.Point(15, 8);
+            this.axX.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.axX.Name = "axX";
+            this.axX.Size = new System.Drawing.Size(34, 38);
+            this.axX.TabIndex = 0;
+            this.axX.Text = "X";
+            // 
             // pbFormula
             // 
             this.pbFormula.BackColor = System.Drawing.Color.White;
             this.pbFormula.Location = new System.Drawing.Point(302, 12);
+            this.pbFormula.Margin = new System.Windows.Forms.Padding(2);
             this.pbFormula.Name = "pbFormula";
-            this.pbFormula.Size = new System.Drawing.Size(287, 73);
+            this.pbFormula.Size = new System.Drawing.Size(288, 72);
             this.pbFormula.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbFormula.TabIndex = 22;
             this.pbFormula.TabStop = false;
@@ -632,12 +828,13 @@ namespace _3DShapes
             this.rbDimetric.BackColor = System.Drawing.Color.White;
             this.rbDimetric.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.rbDimetric.Location = new System.Drawing.Point(1391, 111);
+            this.rbDimetric.Margin = new System.Windows.Forms.Padding(2);
             this.rbDimetric.Name = "rbDimetric";
             this.rbDimetric.Size = new System.Drawing.Size(248, 29);
             this.rbDimetric.TabIndex = 17;
             this.rbDimetric.Text = "Диметрическая проекция";
             this.rbDimetric.UseVisualStyleBackColor = false;
-            this.rbDimetric.CheckedChanged += new System.EventHandler(this.rbDimetric_CheckedChanged);
+            this.rbDimetric.CheckedChanged += new System.EventHandler(this.rbDimetric_CheckedChanged_1);
             // 
             // Form1
             // 
@@ -651,8 +848,8 @@ namespace _3DShapes
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnShowAxis);
             this.Controls.Add(this.rbPerspective);
-            this.Controls.Add(this.rbDimetric);
             this.Controls.Add(this.rbIsometric);
+            this.Controls.Add(this.rbDimetric);
             this.Controls.Add(this.rbAxonometric);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
@@ -677,6 +874,7 @@ namespace _3DShapes
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.canvas);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Алгем (на максималках)";
@@ -687,6 +885,8 @@ namespace _3DShapes
             this.tabPageShape.ResumeLayout(false);
             this.tabPagePlot.ResumeLayout(false);
             this.tabPagePlot.PerformLayout();
+            this.tabPageRotate.ResumeLayout(false);
+            this.tabPageRotate.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbFormula)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -746,6 +946,18 @@ namespace _3DShapes
         private System.Windows.Forms.PictureBox pbFormula;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.TabPage tabPageRotate;
+        private System.Windows.Forms.ComboBox axizRotate;
+        private System.Windows.Forms.Label Former;
+        private System.Windows.Forms.TextBox getDiv;
+        private System.Windows.Forms.Label Divisions;
+        private System.Windows.Forms.Button AddPoint;
+        private System.Windows.Forms.TextBox getZ;
+        private System.Windows.Forms.TextBox getY;
+        private System.Windows.Forms.TextBox getX;
+        private System.Windows.Forms.Label axZ;
+        private System.Windows.Forms.Label axY;
+        private System.Windows.Forms.Label axX;
         private System.Windows.Forms.RadioButton rbDimetric;
     }
 }

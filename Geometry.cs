@@ -13,7 +13,6 @@ namespace _3DShapes
     /// Тип проекции на экран
     /// </summary>
     public enum ProjectionType { ISOMETRIC, PERSPECTIVE, TRIMETRIC, DIMETRIC }
-
     /// <summary>
     /// Точка в пространстве
     /// </summary>
@@ -24,7 +23,7 @@ namespace _3DShapes
         public static PointF worldCenter;
         static Matrix isometricMatrix = new Matrix(3,3).fill(Math.Sqrt(3),0,-Math.Sqrt(3),1,2,1, Math.Sqrt(2),-Math.Sqrt(2), Math.Sqrt(2)) * (1/ Math.Sqrt(6));
         static Matrix trimetricMatrix = new Matrix(4, 4).fill(Math.Sqrt(3)/2, Math.Sqrt(2)/4, 0, 1, 0, Math.Sqrt(2)/2, 0, 1, 0.5,-Math.Sqrt(6)/4,0,0,0,0,0,1);
-        static Matrix dimetricMatrix = new Matrix(4, 4).fill(0.926,0.134,0,0,0,0.935,0,0,0.378,-0.327,0,0,0,0,0,1);
+        static Matrix dimetricMatrix = new Matrix(4, 4).fill(0.926, 0.134, 0, 0, 0, 0.935, 0, 0, 0.378, -0.327, 0, 0, 0, 0, 0, 1);
         static Matrix centralMatrix = new Matrix(4, 4).fill(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, k, 0, 0, 0, 1);
         const double k = 0.001f;
         public Point(int x, int y, int z)
@@ -145,7 +144,7 @@ namespace _3DShapes
     class Shape
     {
         List<Face> faces;
-
+      
         public Shape()
         {
             faces = new List<Face>();
@@ -184,6 +183,7 @@ namespace _3DShapes
                 }
             }
         }
+       
 
         /// <summary>
         /// Виртуальный метод, чтобы наследники могли возвращать какую-то инфу для сохранения в файл
@@ -202,16 +202,14 @@ namespace _3DShapes
         {
             return "SHAPE";
         }
-
         // читает модель многогранника из файла
         public static Shape readShape(string fileName)
         {
             Shape res = new Shape();
             StreamReader sr = new StreamReader(fileName);
             List<Line> edgs = new List<Line>();
-
             // название фигуры
-            string line = sr.ReadLine(); 
+            string line = sr.ReadLine();
             if (line != null)
             {
                 switch (line)
@@ -234,6 +232,9 @@ namespace _3DShapes
                     case "SURFACESEGMENT":
                         res = new SurfaceSegment();
                         break;
+                    case "ROTATIONSHAPE":
+                        res = new RotationShape();
+                        break;
                     default:
                         throw new Exception("Такой фигуры нет :с");
                 }
@@ -244,7 +245,6 @@ namespace _3DShapes
                 // какая-то доп информация
                 res.getAdditionalInfo();
             }
-
             line = sr.ReadLine();
             // считываем данные о каждой грани
             while (line != null)
@@ -257,7 +257,6 @@ namespace _3DShapes
                     string[] str = pointLine.Split(';'); // делим на точки начала и конца ребер
                     var startPoint = str[0].Split(','); // начало ребра
                     var endPoint = str[1].Split(','); // конец ребра
-
                     // добавляем новое ребро текущей грани
                     edgs.Add(new Line(new Point(int.Parse(startPoint[0]), int.Parse(startPoint[1]), int.Parse(startPoint[2])), new Point(int.Parse(endPoint[0]), int.Parse(endPoint[1]), int.Parse(endPoint[2]))));
                 }
@@ -274,7 +273,6 @@ namespace _3DShapes
         {
             // очистка файла
             File.WriteAllText(fileName, String.Empty);
-
             // запись в файл
             StreamWriter sw = new StreamWriter(fileName);
             sw.WriteLine(this.getShapeName()); // название фигуры
@@ -330,16 +328,71 @@ namespace _3DShapes
             return "DODECAHEDRON";
         }
     }
-    
+    /// <summary>
+    /// Класс фигур вращения
+    /// </summary>
+   
+    class RotationShape : Shape
+    {
+        List<Point> formingline;
+        Line axiz;
+        int Divisions;
+        List<Point> allpoints;
+        List<Line> edges;//ребра
+        public RotationShape()
+        {
+            allpoints = new List<Point>();
+            edges = new List<Line>();
+        }
+        public List<Line> Edges { get => edges; }
+        public Shape addEdge(Line edge)
+        {
+            edges.Add(edge);
+            return this;
+        }
+        public Shape addEdges(IEnumerable<Line> ed)
+        {
+            this.edges.AddRange(ed);
+            return this;
+        }
+
+        public RotationShape(IEnumerable<Point> points) : this()
+        {
+            this.allpoints.AddRange(points);
+        }
+        public RotationShape(Line ax, int Div, IEnumerable<Point> line) : this()
+        {
+            this.axiz=ax;
+            this.Divisions = Div;
+            this.formingline.AddRange(line);
+        }
+
+        public RotationShape addPoint(Point p)
+        {
+            allpoints.Add(p);
+            return this;
+        }
+        public RotationShape addPoints(IEnumerable<Point> points)
+        {
+            this.allpoints.AddRange(points);
+            return this;
+        }
+
+        public List<Point> Points { get => allpoints; }
+
+        public override String getShapeName()
+        {
+            return "ROTATIONSHAPE";
+        }
+    }
+
     class SurfaceSegment : Shape
     {
         int x0, x1, y0, y1;
         int splitting;
-
         public SurfaceSegment()
         {
         }
-
         public SurfaceSegment(int x0, int x1, int y0, int y1, int splitting)
         {
             this.x0 = x0;
@@ -348,14 +401,12 @@ namespace _3DShapes
             this.y1 = y1;
             this.splitting = splitting;
         }
-
-
-
         public override String getShapeName()
         {
             return "SURFACESEGMENT";
         }
     }
+
 
     class Geometry
     {
@@ -363,7 +414,7 @@ namespace _3DShapes
         /// Переводит угол из градусов в радианы
         /// </summary>
         /// <param name="angle">Угол в градусах</param>
-        /// <returns>Угол в радианах</returns>
+        ///
         public static double degreesToRadians(double angle)
         {
             return Math.PI * angle / 180.0;
@@ -387,6 +438,71 @@ namespace _3DShapes
         {
             return Math.Round(Math.Sin(degreesToRadians(angle)), 5);
         }
+        /// <summary>
+        /// Перевод точки в другую точку
+        /// </summary>
+        /// <param name="p">Исзодная точка</param>
+        /// <param name="matrix">Матрица перевода</param>
+        /// 
+        public static Point transformPoint(Point p, Matrix matrix)
+
+        {
+            var matrfrompoint = new Matrix(4, 1).fill(p.X, p.Y, p.Z,1);
+
+            var matrPoint = matrix * matrfrompoint;//применение преобразования к точке
+            //Point newPoint = new Point(matrPoint[0, 0] / matrPoint[3, 0], matrPoint[1, 0] / matrPoint[3, 0], matrPoint[2, 0] / matrPoint[3, 0]);
+            Point newPoint = new Point(matrPoint[0, 0], matrPoint[1, 0], matrPoint[2, 0]);
+            return newPoint;
+
+        }
+        /// <summary>
+        /// Перевод всех точек для тела вращения в другие точки
+        /// </summary>
+        /// <param name="matrix">Матрица перевода</param>
+        /// 
+        public static List<Point> transformPointsRotationFig(Matrix matrix,List<Point> allpoints)
+        {
+            List<Point> clone = allpoints;
+            List<Point> res = new List<Point>();
+            foreach (var p in clone)
+            {
+
+                Point newp = transformPoint(p, matrix);
+                res.Add(newp);
+            }
+            return res;
+        }/// <summary>
+        /// Поворот образующей для фигуры вращения
+        /// </summary>
+        /// <param name="general">образующая</param>
+        /// <param name="axis">Ось вращения</param>
+        /// <param name="angle">угол вращения</param>
+
+        /// <returns></returns>
+        public static List<Point> RotatePoint(List<Point> general, AxisType axis, double angle)
+        {
+            List<Point> res;
+            double mysin = Math.Sin(Geometry.degreesToRadians(angle));
+            double mycos = Math.Cos(Geometry.degreesToRadians(angle));
+            Matrix rotation = new Matrix(0, 0);
+
+            switch (axis)
+            {
+                case AxisType.X:
+                    rotation = new Matrix(4, 4).fill(1, 0, 0, 0, 0, mycos, -mysin, 0, 0, mysin, mycos, 0, 0, 0, 0, 1);
+                    break;
+                case AxisType.Y:
+                    rotation = new Matrix(4, 4).fill(mycos, 0, mysin, 0, 0, 1, 0, 0, -mysin, 0, mycos, 0, 0, 0, 0, 1);
+                    break;
+                case AxisType.Z:
+                    rotation = new Matrix(4, 4).fill(mycos, -mysin, 0, 0, mysin, mycos, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+                    break;
+            }
+
+            res = Geometry.transformPointsRotationFig(rotation, general);
+
+            return res;            
+        }
     }
 
     /// <summary>
@@ -408,10 +524,12 @@ namespace _3DShapes
                 case ShapeType.HEXAHEDRON: return getHexahedron();
                 case ShapeType.ICOSAHEDRON: return getIcosahedron();
                 case ShapeType.DODECAHEDRON: return getDodecahedron();
-                
+               
+
                 default: throw new Exception("C# очень умный (нет)");
             }
         }
+       
         /// <summary>
         /// Получение тетраэдра
         /// </summary>
@@ -557,12 +675,68 @@ namespace _3DShapes
             return res;
         }
 
-        public static SurfaceSegment getSurfaceSegment(Func<double,double,double> fun, int x0, int x1, int y0, int y1, int splitting)
+        /// 
+        /// <summary>
+        /// Получение фигуры вращения
+        /// </summary>
+        /// <returns></returns>
+        public static RotationShape getRotationShape(List<Point> general, int divisions, AxisType axis)
+        {
+            RotationShape res = new RotationShape();
+             List<Point> genline = general;
+            int GeneralCount = genline.Count();
+            //Line axis;
+            int Count = divisions;
+            double angle = (360.0 / Count);//угол 
+            List<Line> edges;//ребра
+           
+            res.addPoints(genline);//добавили образующую
+            for (int i = 1; i < divisions; i++)//количество разбиений
+            {
+                res.addPoints(Geometry.RotatePoint(genline, axis, angle * i));
+            }
+            //
+         
+            //Фигура вращения задаётся тремя параметрами: образующей(набор точек), осью вращения и количеством разбиений
+            //зададим ребра и грани
+            for (int i = 0; i < divisions; i++)
+            {
+                for (int j = 0;  j < GeneralCount; j++)
+                {
+                    int index = i * GeneralCount + j;//индекс точки
+                    if (index < divisions * GeneralCount)
+                    {
+                        int e = (index + GeneralCount) % res.Points.Count;
+                        if ((index + 1) % GeneralCount == 0)
+                        {
+
+                            // res.addFace(new Face().addEdge(new Line( res.Points[current], res.Points[e])));
+                            res.addEdge(new Line(res.Points[index], res.Points[e]));
+                        }
+                        else
+                        {
+                            res.addEdge(new Line(res.Points[index], res.Points[index + 1]));
+                            res.addEdge(new Line(res.Points[index], res.Points[e]));
+                            int e1 = (index + 1 + GeneralCount) % res.Points.Count;
+                            //добавим грань
+                            res.addFace(new Face().addEdge(new Line(res.Points[index], res.Points[index + 1])).addEdge(new Line(res.Points[index + 1], res.Points[e1])).addEdge(new Line(res.Points[e1], res.Points[e])).addEdge(new Line(res.Points[e], res.Points[index])));
+                        }
+                    }
+                    
+                }
+
+
+            }
+           
+            return res;
+        }
+
+        public static SurfaceSegment getSurfaceSegment(Func<double, double, double> fun, int x0, int x1, int y0, int y1, int splitting)
         {
             SurfaceSegment res = new SurfaceSegment(x0, x1, y0, y1, splitting);
             double stepX = Math.Abs(x1 - x0) * 1.0 / splitting;
             double stepY = Math.Abs(y1 - y0) * 1.0 / splitting;
-            for (double x = x0; x < x1; x+= stepX)
+            for (double x = x0; x < x1; x += stepX)
             {
                 for (double y = y0; y < y1; y += stepY)
                 {
