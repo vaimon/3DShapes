@@ -61,6 +61,8 @@ namespace _3DShapes
             rbAxonometric.Enabled = interactiveMode;
             rbWorldCenter.Enabled = interactiveMode;
             rbCenter.Enabled = interactiveMode;
+            rbDimetric.Enabled = interactiveMode;
+            btnShowPoints.Enabled = interactiveMode;
 
             btnChoosePlot.Enabled = !interactiveMode;
             etSplit.Enabled = !interactiveMode;
@@ -248,6 +250,6 @@ namespace _3DShapes
                 Point.projection = ProjectionType.DIMETRIC;
                 redraw();
             }
-        }
+        }        
     }
 }

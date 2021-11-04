@@ -16,6 +16,7 @@ namespace _3DShapes
     public partial class Form1
     {
         bool isAxisVisible = false;
+        bool arePointsVisible = false;
         ShapeType currentShapeType;
         Shape currentShape;
         Graphics g;
@@ -23,13 +24,15 @@ namespace _3DShapes
         private void btnShowAxis_Click(object sender, EventArgs e)
         {
             isAxisVisible = !isAxisVisible;
-            g.Clear(Color.White);
-            if (isAxisVisible)
-            {
-                drawAxis();
-            }
-            drawShape(currentShape);
-            btnShowAxis.Text = isAxisVisible ? "Скрыть точки и оси" : "Показать точки и оси";
+            redraw();
+            btnShowAxis.Text = isAxisVisible ? "Скрыть оси" : "Показать оси";
+        }
+
+        private void btnShowPoints_Click(object sender, EventArgs e)
+        {
+            arePointsVisible = !arePointsVisible;
+            redraw();
+            btnShowPoints.Text = arePointsVisible ? "Скрыть точки" : "Показать точки";
         }
         private void buttonShape_Click(object sender, EventArgs e)
         {
@@ -156,15 +159,22 @@ namespace _3DShapes
             drawLine(axisX, new Pen(Color.Red, 4));
             drawLine(axisY, new Pen(Color.Blue, 4));
             drawLine(axisZ, new Pen(Color.Green, 4));
-
             g.ScaleTransform(1.0F, -1.0F);
             g.TranslateTransform(0.0F, -(float)canvas.Height);
             g.DrawString($" X", new Font("Arial", 10, FontStyle.Regular), new SolidBrush(Color.Red), axisX.End.to2D().X, canvas.Height - axisX.End.to2D().Y);
             g.DrawString($" Y", new Font("Arial", 10, FontStyle.Regular), new SolidBrush(Color.Blue), axisY.End.to2D().X, canvas.Height - axisY.End.to2D().Y);
             g.DrawString($" Z", new Font("Arial", 10, FontStyle.Regular), new SolidBrush(Color.Green), axisZ.End.to2D().X, canvas.Height - axisZ.End.to2D().Y);
+            g.ScaleTransform(1.0F, -1.0F);
+            g.TranslateTransform(0.0F, -(float)canvas.Height);
+        }
+
+        void drawPoints()
+        {
+            g.ScaleTransform(1.0F, -1.0F);
+            g.TranslateTransform(0.0F, -(float)canvas.Height);
             foreach (var face in currentShape.Faces)
             {
-                foreach(var line in face.Edges)
+                foreach (var line in face.Edges)
                 {
                     g.DrawString($" ({line.Start.X}, {line.Start.Y}, {line.Start.Z})", new Font("Arial", 8, FontStyle.Italic), new SolidBrush(Color.DarkBlue), line.Start.to2D().X, canvas.Height - line.Start.to2D().Y);
                     g.DrawString($" ({line.End.X}, {line.End.Y}, {line.End.Z})", new Font("Arial", 8, FontStyle.Italic), new SolidBrush(Color.DarkBlue), line.End.to2D().X, canvas.Height - line.End.to2D().Y);
@@ -181,12 +191,16 @@ namespace _3DShapes
         {
             g.Clear(Color.White);
             
-            drawShape(currentShape);
-            
             if (isAxisVisible)
             {
                 drawAxis();
             }
+            if (arePointsVisible)
+            {
+                drawPoints();
+            }
+
+            drawShape(currentShape);
         }
     }
 }
