@@ -743,8 +743,12 @@ namespace _3DShapes
                     var face = new Face();
                     face.addEdge(new Line(new Point(x, y, fun(x, y)), new Point(x + stepX, y, fun(x + stepX, y))));
                     face.addEdge(new Line(new Point(x + stepX, y, fun(x + stepX, y)), new Point(x + stepX, y + stepY, fun(x + stepX, y + stepY))));
-                    face.addEdge(new Line(new Point(x + stepX, y + stepY, fun(x + stepX, y + stepY)), new Point(x, y + stepY, fun(x, y + stepY))));
-                    face.addEdge(new Line(new Point(x, y + stepY, fun(x, y + stepY)), new Point(x, y, fun(x, y))));
+                    face.addEdge(new Line(new Point(x + stepX, y + stepY, fun(x + stepX, y + stepY)), new Point(x, y, fun(x, y))));
+                    res.addFace(face);
+                    face = new Face();
+                    face.addEdge(new Line(new Point(x, y, fun(x, y)), new Point(x, y + stepY, fun(x, y + stepY))));
+                    face.addEdge(new Line(new Point(x, y + stepY, fun(x, y + stepY)), new Point(x + stepX, y + stepY, fun(x + stepX, y + stepY))));
+                    face.addEdge(new Line(new Point(x + stepX, y + stepY, fun(x + stepX, y + stepY)), new Point(x, y, fun(x, y))));
                     res.addFace(face);
                 }
             }
